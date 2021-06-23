@@ -1,4 +1,4 @@
-#' Download the timeline data for a single user
+#' Download the timeline data for a group of users
 #'
 #' This download most of the tweets write by this politician on Twitter
 #'

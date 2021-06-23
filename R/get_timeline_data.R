@@ -1,5 +1,58 @@
-get_timeline_data <-
-function(screen.name){
+#' Download the timeline data for a single user
+#'
+#' This download most of the tweets write by this politician on Twitter
+#'
+#' @param screen.name  A character with the screen name of the account
+#' @import mongolite
+#' @importFrom dplyr bind_rows
+#' @export
+#' @examples
+#' get_timeline_data(screen.name = "alferdez")
+#'
+#' @return This function returns a \code{data.frame} including columns:
+#' \itemize{
+#' \item user_id
+#' \item status_id
+#' \item created_at
+#' \item screen_name
+#' \item text
+#' \item source
+#' \item is_quote
+#' \item is_retweet
+#' \item favorite_count
+#' \item retweet_count
+#' \item lang
+#' \item status_url
+#' \item name
+#' \item mentions_user_id
+#' \item mentions_screen_name
+#' \item retweet_status_id
+#' \item retweet_text
+#' \item retweet_created_at
+#' \item retweet_source
+#' \item retweet_favorite_count
+#' \item retweet_retweet_count
+#' \item retweet_user_id
+#' \item retweet_screen_name
+#' \item retweet_name
+#' \item retweet_followers_count
+#' \item retweet_friends_count
+#' \item retweet_statuses_count
+#' \item retweet_location
+#' \item retweet_description
+#' \item retweet_verified
+#' \item reply_to_user_id
+#' \item reply_to_screen_name
+#' \item urls_url
+#' \item urls_t_co
+#' }
+#'
+#' @export
+#' @seealso \link[rtweet]{search_tweets}
+#'
+
+
+get_timeline_data <- function(screen.name){
 
   url_path <- download_url(1)
   data_politicxs <- download_list()
@@ -43,9 +96,9 @@ function(screen.name){
       else{
         print("There's an screen name that is not in the list. You must try download ", i," with rtweet package")
       }
-      }
-
     }
+
+  }
 
   cat(crayon::green$bold("Congrats, the data of", screen.name, "is download"))
 }
