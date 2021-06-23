@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Políticos en Twitter 🔷📦 <img src="man/figures/logo.png" width="160px" align="right" />
+# Políticxs en Twitter 🔷📦 <img src="man/figures/logo.png" width="160px" align="right" />
 
 This is a test for a future package of [Shiny App "Politicians on Twitter"](https://oderedes.shinyapps.io/politicosentwitter/). The idea is to download every data of the application using R.
 
