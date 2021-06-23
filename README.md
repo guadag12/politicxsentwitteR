@@ -13,7 +13,7 @@ This is a package in a developed state. So, you can download using this code:
 
 ``` 
 library(devtools)
-install_github("Guadag12/polentw")
+install_github("guadag12/politicxsentwitteR")
 ```
 ## Usage 🌟
 
