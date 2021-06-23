@@ -24,7 +24,7 @@ The best part is that there is no need to have the authentication to interact wi
 Search for every tweet -including retweets- of one or more users:
 
 ``` r
-timeline <- get.timeline(screen.name = "alferdez")
+timeline <- get_timeline_data(screen.name = "alferdez")
 ```
 
 ### Get the timeline of all users in a category 🤳 👇
@@ -32,7 +32,7 @@ timeline <- get.timeline(screen.name = "alferdez")
 Search for every tweet -including retweets- of one or more users in one or more categories ('all','deputies','national executive','others','province servants', 'senators')
 
 ``` r
-timelines_others_senators <- get.timeline.all(category = c('others','senators'))
+timelines_others_senators <- get_timeline_data_all(category = c('others','senators'))
 ```
 
 ### Get the evolution of friends and followers by day 👥:
@@ -40,7 +40,7 @@ timelines_others_senators <- get.timeline.all(category = c('others','senators'))
 Get how many friends and followers win or lose every user by day :
 
 ``` r
-friends_followers_SM <- get.friends.followers(screen.name = "SergioMassa")
+friends_followers_SM <- get_friends_followers(screen.name = "SergioMassa")
 ```
 
 ### Get the evolution of friends and followers by day in a specific category 👥:
@@ -48,7 +48,7 @@ friends_followers_SM <- get.friends.followers(screen.name = "SergioMassa")
 Get how many friends and followers win or lose every user by day all the functionaries or some of them based on which category they belong ('all','deputies','national executive','others','province servants', 'senators'):
 
 ``` r
-friends_followers_prov_national <- get.friends.followers.all(category = c('province servants','national executive' ),  historic = FALSE)
+friends_followers_prov_national <- get_friends_followers_all(category = c('province servants','national executive' ),  historic = FALSE)
 ```
 
 Moreover, check the historic data of their friends and followers using the "historic" parameter, that's by default "FALSE".
@@ -59,7 +59,7 @@ Moreover, check the historic data of their friends and followers using the "hist
 Get who retweets who in a given period of time:
 
 ``` r
-network <- get.network.data(category= "all", start_date= "2021-01-01", end_date = "2021-03-31")
+network <- get_network_data(category= "all", start_date= "2021-01-01", end_date = "2021-03-31")
 ```
 
 Select the category that you want to match and the start and end date of retweets.
