@@ -31,6 +31,7 @@ and the created date of the account with the possibility of download the histori
 }
 \examples{
 get_friends_followers_all(category = 'others',  historic = TRUE)
+
 }
 \seealso{
 get_friends_followers

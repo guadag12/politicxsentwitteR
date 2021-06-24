@@ -10,6 +10,7 @@
 #' @export
 #' @examples
 #' get_friends_followers_all(category = 'others',  historic = TRUE)
+#'
 #' @return This function returns a \code{data.frame} including columns:
 #' \itemize{
 #' \item date

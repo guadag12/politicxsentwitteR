@@ -26,35 +26,31 @@
 #' @seealso \link[rtweet]{get_followers}
 #' @seealso \link[rtweet]{get_friends}
 
+
 get_friends_followers <- function(screen.name) {
 
-    url_path <- download_url(1)
-    data_politicxs <- download_list()
+  url_path <- download_url(1)
+  data_politicxs <- download_list()
 
-    if(!is.character(screen.name) ){
-      stop("screen name must be character")
+  if(length(screen.name) == 1){
+      data_crec_db <-  mongolite::mongo(collection = "data_crec", # Data Table
+                                        db = "CREC_db", # DataBase
+                                        url = download_url(1),
+                                        verbose = TRUE)
+      data <- data_crec_db$find(paste0('{"screen_name" : ','"', screen.name, '"','}') )
     }
-
     else{
-      if(length(screen.name) == 1){
-        data_crec_db <-  mongolite::mongo(collection = "data_crec", # Data Table
-                                          db = "CREC_db", # DataBase
-                                          url = download_url(1),
-                                          verbose = TRUE)
-        data <- data_crec_db$find(paste0('{"screen_name" : ','"', screen.name, '"','}') )
-      }
-      else{
-        j = 1
-        for(i in screen.name){
-          if(!i %in% data_politicxs$screen_name ){
-            message(paste0(i, "is not in the list of Politicians on TwitteR (list: https://github.com/guadag12/polentw/raw/master1/data/data_politicos.rda ). You must try download the tweets with rtweet package"))
-          }
-          else{
+      j = 1
+      for(i in screen.name){
+        if(!i %in% data_politicxs$screen_name ){
+          warning(paste0(i, " is not in the list of Politicians on TwitteR (list: https://github.com/guadag12/polentw/raw/master1/data/politicxs_data.rda ). You must try download the tweets with rtweet package"))
+        }
           data_crec_db <-  mongolite::mongo(collection = "data_crec", # Data Table
                                             db = "CREC_db", # DataBase
                                             url = download_url(1),
                                             verbose = TRUE)
           data_crec <- data_crec_db$find(paste0('{"screen_name" : ','"', i, '"','}') )
+
           if(j == 1) {
             data <- data_crec[0,]
             data <- dplyr::bind_rows(data, data_crec)
@@ -64,13 +60,12 @@ get_friends_followers <- function(screen.name) {
           else {
             data <- dplyr::bind_rows(data, data_crec)
             j=j+1 }
-          }
-        }
+
       }
     }
-    data <- data[, c("date", "followers_count", "friends_count", "listed_count", "statuses_count",
-                     "favourites_count", "account_created_at")]
-    return(data)
+  data <- data[, c("date", "followers_count", "friends_count", "listed_count", "statuses_count",
+                   "favourites_count", "account_created_at")]
+  return(data)
 
-    cat(crayon::green$bold("Congrats, the data of", screen.name, "is download" ))
+  cat(crayon::green$bold("Congrats, the data of", screen.name, "is download" ))
 }
