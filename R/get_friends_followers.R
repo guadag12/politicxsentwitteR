@@ -39,7 +39,6 @@ get_friends_followers <- function(screen.name) {
                                         verbose = TRUE)
       data <- data_crec_db$find(paste0('{"screen_name" : ','"', screen.name, '"','}') )
       data$screen_name = screen.name
-
     }
     else{
       j = 1
@@ -53,6 +52,7 @@ get_friends_followers <- function(screen.name) {
                                             verbose = TRUE)
           data_crec <- data_crec_db$find(paste0('{"screen_name" : ','"', i, '"','}') )
           data_crec$screen_name = i
+
           if(j == 1) {
             data <- data_crec[0,]
             data <- dplyr::bind_rows(data, data_crec)

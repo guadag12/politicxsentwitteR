@@ -2,6 +2,7 @@
 
 export(get_friends_followers)
 export(get_friends_followers_all)
+export(get_network_data)
 export(get_timeline_data)
 export(get_timeline_data_all)
 import(crayon)

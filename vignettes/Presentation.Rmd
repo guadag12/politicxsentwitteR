@@ -12,14 +12,15 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(scipen = 9999)
 ```
 
+1. Instalamos el paquete y otras librerias necesarias:
 ```{r}
-# options(scipen = 9999)
-# library(devtools)
-# #install_github("guadag12/politicxsentwitteR")
-# library(politicxsentwitteR)
+library(devtools)
 
+#install_github("guadag12/politicxsentwitteR", force=T)
+library(politicxsentwitteR)
 ```
 
 1. Lista de usuarios que contiene [Politicxs en twitter]()
@@ -38,9 +39,9 @@ a. Podemos descargar sobre un funcionario determinado
 ```
 E incluso saber cuándo fue que más twitteó:
 ```{r}
-#library(tidyverse)
-#library(plotly)
-#library(hrbrthemes)
+# library(tidyverse)
+# library(plotly)
+# library(hrbrthemes)
 
 # p <- timeline_mev %>%
 #         group_by(date=as.Date(created_at)) %>%
@@ -56,22 +57,38 @@ E incluso saber cuándo fue que más twitteó:
 E incluso podemos ver más de el estado de más de cuenta:
 
 ```{r}
-#timeline_mev_mm <- get_timeline_data(screen.name = c("mariuvidal", "alferdez"))
-#head(timeline_mev_mm)
-#unique(timeline_mev_mm$user_id)
+# timeline_af_mm <- get_timeline_data(screen.name = c("alferdez", "mauriciomacri"))
+# head(timeline_mev_mm)
 ```
-E incluso podemos ver cuántos amigos tiene cada uno:
 ```{r}
-# foll_mev_mm <- get_friends_followers(screen.name = c("mariuvidal", "alferdez"))
-# foll_mev_mm %>%
-#         group_by(date=as.Date(date)) %>%
+# timeline_mev_mm %>%
+#         group_by(date=as.Date(created_at), screen_name) %>%
 #         summarise(value = n()) %>%
-#         ggplot( aes(x=date, y=value, fill = )) +
-#           geom_area(fill="#dbb012", alpha=0.5) +
-#           geom_line(color="#dbb012") +
-#           ylab("Tweets emitidos por @mariuvidal") +
+#         ggplot( aes(x=date, y=value)) +
+#           geom_area(aes(fill = screen_name), alpha=0.5) +
+#           geom_line(aes(color = screen_name)) +
+#           ggtitle("Tweets emitidos por @mauriciomacri y @alferdez") +
 #           theme_ipsum()
 ```
+
+E incluso podemos ver cuántos amigos tiene cada uno:
+```{r}
+#foll_af_mm <- get_friends_followers(screen.name = c( "alferdez", "mauriciomacri"))
+# foll_af_mm %>%
+#          # group_by(date=as.Date(date),screen_name) %>%
+#          # summarise(value = n()) %>%
+#          ggplot( aes(x=date, y=followers_count)) +
+#            geom_area(aes(fill=screen_name), alpha=0.5) +
+#            geom_line(aes(color=screen_name)) +
+#            ylab("Followers emitidos por @mariuvidal") +
+#            theme_ipsum()
+```
+
+3. Incluso podemos obtener la data de redes (para un periodo de tiempo y que se actualiza de manera mensual):
+```{r}
+
+```
+
 
 
 
