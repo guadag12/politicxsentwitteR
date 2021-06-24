@@ -74,20 +74,30 @@ get_timeline_data <- function(screen.name){
 
   }
   else{
+
     for(i in screen.name){
       if(!i %in% data_politicxs$screen_name ){
-        message(paste0(i,"is not in the list on politicians on twitter. You must try download with rtweet package"))
+        warning(paste0(i,"is not in the list on politicians on twitter. You must try download with rtweet package"))
       }
       else{
-      my_query_2 <- mongolite::mongo(collection = i,
-                                     db = paste0(data_politicxs[data_politicxs$screen_name == i, 'database']),
-                                     url = paste0(data_politicxs[data_politicxs$screen_name == i, 'url_path']),
-                                     verbose = TRUE)
-      data_timeline <- my_query_2$find(query = '{}')
-      data <- dplyr::bind_rows(data, data_timeline)
-      return(data)
+        my_query_2 <- mongolite::mongo(collection = i,
+                                       db = paste0(data_politicxs[data_politicxs$screen_name == i, 'database']),
+                                       url = paste0(data_politicxs[data_politicxs$screen_name == i, 'url_path']),
+                                       verbose = TRUE)
+        data_timeline <- my_query_2$find(query = '{}')
+
+        if(j == 1){
+          data <- data_timeline[0,]
+          data <- dplyr::bind_rows(data, data_timeline)
+          j = j+1
+        }
+        else{
+          data <- dplyr::bind_rows(data, data_timeline)
+          j = j+1
+          }
       }
     }
+    return(data)
 
   }
 
