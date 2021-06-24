@@ -20,11 +20,12 @@ install_github("guadag12/politicxsentwitteR")
 
 The best part is that there is no need to have the authentication to interact with Twitter’s APIs. You can easily access reusable data for most nationals public servants in Argentina. Find the [total list here!](https://github.com/Guadag12/polentw/raw/master1/data/data_politicos.rda)
 
- ### Get the timeline of public servants 🤳 👇: 
+ 
+ ### Get the timeline of public servants 🤳 👇:
   
-   Search for every tweet -including retweets- of one or more users:
-  
-   ``` r
+ Search for every tweet -including retweets- of one or more users:
+ 
+ ``` r
  timeline <- get_timeline_data(screen.name = "alferdez")
  ```
 
