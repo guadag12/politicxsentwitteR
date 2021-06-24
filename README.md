@@ -2,7 +2,7 @@
   
   # Políticxs en Twitter 🔷📦 <img src="man/figures/logo.png" width="160px" align="right" />
   
-  This is a the repository of the R package "politicxsentwitteR". The idea is to download every data of the application of ["Politicians on Twitter"](https://oderedes.shinyapps.io/politicosentwitter/) using R.
+  This is a the repository of the R package __"politicxsentwitteR"__. The idea is to download every data of the application of ["Politicians on Twitter"](https://oderedes.shinyapps.io/politicosentwitter/) using R.
 
 <!-- Use twitter from R. Get started by reading `vignette("rtweet")`. -->
   
