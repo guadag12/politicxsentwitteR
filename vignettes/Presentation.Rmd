@@ -19,47 +19,47 @@ options(scipen = 9999)
 ```{r}
 library(devtools)
 
-#install_github("guadag12/politicxsentwitteR", force=T)
+install_github("guadag12/politicxsentwitteR", force=T)
 library(politicxsentwitteR)
 ```
 
-1. Lista de usuarios que contiene [Politicxs en twitter]()
+2. Lista de usuarios que contiene [Politicxs en twitter]()
 
 Podemos ver la lista que tenemos de funcionarios con *politicxs_data*:
 ```{r}
-#head(politicxs_data)
+head(politicxs_data)
 ```
 
-2. Timelines:
+3. Timelines:
 
-a. Podemos descargar sobre un funcionario determinado
+a. Podemos descargar sobre un usuario determinado con la función *get_timeline_data*
 ```{r}
-# timeline_mev <- get_timeline_data("mariuvidal")
-# head(timeline_mev)
-```
-E incluso saber cuándo fue que más twitteó:
-```{r}
-# library(tidyverse)
-# library(plotly)
-# library(hrbrthemes)
+timeline_mev <- get_timeline_data("mariuvidal")
 
-# p <- timeline_mev %>%
-#         group_by(date=as.Date(created_at)) %>%
-#         summarise(value = n()) %>%
-#         ggplot( aes(x=date, y=value)) +
-#           geom_area(fill="#dbb012", alpha=0.5) +
-#           geom_line(color="#dbb012") +
-#           ylab("Tweets emitidos por @mariuvidal") +
-#           theme_ipsum()
-# p <- ggplotly(p)
-# p
+head(timeline_mev)
 ```
-E incluso podemos ver más de el estado de más de cuenta:
-
+b. E incluso saber cuándo fue que más twitteó:
 ```{r}
-# timeline_af_mm <- get_timeline_data(screen.name = c("alferdez", "mauriciomacri"))
-# head(timeline_mev_mm)
+library(tidyverse)
+library(plotly)
+library(hrbrthemes)
+
+timeline_mev %>%
+         group_by(date=as.Date(created_at)) %>%
+         summarise(value = n()) %>%
+         ggplot( aes(x=date, y=value)) +
+           geom_area(fill="#dbb012", alpha=0.5) +
+           geom_line(color="#dbb012") +
+           ggtitle("Tweets emitidos por @mariuvidal") +
+           theme_ipsum()
+
 ```
+c. E incluso podemos hacerlo para ver el timeline de más de un usuario:
+```{r}
+timeline_af_mm <- get_timeline_data(screen.name = c("alferdez", "mauriciomacri"))
+head(timeline_af_mm)
+```
+d. Y graficar en qué periodos de tiempos más twittearon ambos:
 ```{r}
 # timeline_mev_mm %>%
 #         group_by(date=as.Date(created_at), screen_name) %>%
@@ -71,23 +71,41 @@ E incluso podemos ver más de el estado de más de cuenta:
 #           theme_ipsum()
 ```
 
-E incluso podemos ver cuántos amigos tiene cada uno:
+4. E incluso podemos ver cuántos amigos tiene cada uno:
 ```{r}
-#foll_af_mm <- get_friends_followers(screen.name = c( "alferdez", "mauriciomacri"))
+library(sknifedatar)
+
+# foll_af_mm <- get_friends_followers(screen.name = c( "alferdez", "mauriciomacri"))
 # foll_af_mm %>%
-#          # group_by(date=as.Date(date),screen_name) %>%
-#          # summarise(value = n()) %>%
-#          ggplot( aes(x=date, y=followers_count)) +
-#            geom_area(aes(fill=screen_name), alpha=0.5) +
-#            geom_line(aes(color=screen_name)) +
-#            ylab("Followers emitidos por @mariuvidal") +
-#            theme_ipsum()
+#           ggplot( aes(x=date, y=followers_count)) +
+#             geom_area(aes(fill=screen_name), alpha=0.5) +
+#             geom_line(aes(color=screen_name)) +
+#             ylab("Followers obtenidos por @alferdez y @mauriciomacri") +
+#             theme_ipsum()
 ```
 
 3. Incluso podemos obtener la data de redes (para un periodo de tiempo y que se actualiza de manera mensual):
 ```{r}
-
+others_network <- get_network_data(category = "others") 
 ```
+
+```{r}
+# others_network <- others_network %>%
+#                           left_join(politicxs_data) %>%
+#                           select(screen_name_from = screen_name, retweet_user_id, value) %>%
+#                           left_join(politicxs_data, by = c("retweet_user_id"= "user_id")) %>%
+#                           select(from=screen_name_from, to = screen_name, value) %>%
+#                           drop_na()
+```
+
+```{r}
+library(igraph)
+library(networkD3)
+# p <- simpleNetwork(others_network, height="100px", width="100px")
+# p
+```
+
+
 
 
 

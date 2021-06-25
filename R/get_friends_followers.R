@@ -38,7 +38,6 @@ get_friends_followers <- function(screen.name) {
                                         url = download_url(1),
                                         verbose = TRUE)
       data <- data_crec_db$find(paste0('{"screen_name" : ','"', screen.name, '"','}') )
-      data$screen_name = screen.name
     }
     else{
       j = 1
@@ -51,7 +50,6 @@ get_friends_followers <- function(screen.name) {
                                             url = download_url(1),
                                             verbose = TRUE)
           data_crec <- data_crec_db$find(paste0('{"screen_name" : ','"', i, '"','}') )
-          data_crec$screen_name = i
 
           if(j == 1) {
             data <- data_crec[0,]
@@ -65,7 +63,7 @@ get_friends_followers <- function(screen.name) {
 
       }
     }
-  data <- data[, c("date", "followers_count", "friends_count", "listed_count", "statuses_count",
+  data <- data[, c("screen_name","date", "followers_count", "friends_count", "listed_count", "statuses_count",
                    "favourites_count", "account_created_at")]
   return(data)
 
