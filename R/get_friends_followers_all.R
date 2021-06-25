@@ -95,7 +95,7 @@ get_friends_followers_all <- function(category="all", country="ar", historic = F
     data <- data[(data$screen_name %in% data_politicxs[(data_politicxs$category == category), "screen_name"]), ] }
 }
   data <- data[, c("date", "screen_name", "followers_count", "friends_count", "listed_count", "statuses_count",
-                   "favourites_count", "account_created_at")]
+                   "favourites_count")]
   return(data)
   cat(crayon::green$bold("Congrats, the data of", category, "is download"))
 }

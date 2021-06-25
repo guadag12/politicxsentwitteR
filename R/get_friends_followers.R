@@ -64,7 +64,7 @@ get_friends_followers <- function(screen.name) {
       }
     }
   data <- data[, c("screen_name","date", "followers_count", "friends_count", "listed_count", "statuses_count",
-                   "favourites_count", "account_created_at")]
+                   "favourites_count")]
   return(data)
 
   cat(crayon::green$bold("Congrats, the data of", screen.name, "is download" ))

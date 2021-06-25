@@ -1,5 +1,5 @@
 ---
-title: "Presentation"
+title: "Presentation Politicxs en Twitter"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Presentation}
@@ -15,6 +15,9 @@ knitr::opts_chunk$set(
 options(scipen = 9999)
 ```
 
+
+### Instalación:
+
 1. Instalamos el paquete y otras librerias necesarias:
 ```{r}
 library(devtools)
@@ -23,6 +26,8 @@ install_github("guadag12/politicxsentwitteR", force=T)
 library(politicxsentwitteR)
 ```
 
+### Descargá la data de politicxs:
+
 2. Lista de usuarios que contiene [Politicxs en twitter]()
 
 Podemos ver la lista que tenemos de funcionarios con *politicxs_data*:
@@ -30,9 +35,9 @@ Podemos ver la lista que tenemos de funcionarios con *politicxs_data*:
 head(politicxs_data)
 ```
 
-3. Timelines:
+### Timeline de usuarios:
 
-a. Podemos descargar sobre un usuario determinado con la función *get_timeline_data*
+3. a. Podemos descargar sobre un usuario determinado con la función *get_timeline_data*
 ```{r}
 timeline_mev <- get_timeline_data("mariuvidal")
 
@@ -54,60 +59,82 @@ timeline_mev %>%
            theme_ipsum()
 
 ```
-c. E incluso podemos hacerlo para ver el timeline de más de un usuario:
+c. Podemos hacerlo comparando la cantidad de tweets de más de un usuario:
 ```{r}
 timeline_af_mm <- get_timeline_data(screen.name = c("alferdez", "mauriciomacri"))
 head(timeline_af_mm)
 ```
-d. Y graficar en qué periodos de tiempos más twittearon ambos:
+
+d. Además, podemos graficar en qué periodos de tiempos más twittearon ambos:
 ```{r}
-# timeline_mev_mm %>%
-#         group_by(date=as.Date(created_at), screen_name) %>%
-#         summarise(value = n()) %>%
-#         ggplot( aes(x=date, y=value)) +
-#           geom_area(aes(fill = screen_name), alpha=0.5) +
-#           geom_line(aes(color = screen_name)) +
-#           ggtitle("Tweets emitidos por @mauriciomacri y @alferdez") +
-#           theme_ipsum()
+timeline_mev_mm %>%
+        group_by(date=as.Date(created_at), screen_name) %>%
+        summarise(value = n()) %>%
+        ggplot( aes(x=date, y=value)) +
+          geom_area(aes(fill = screen_name), alpha=0.5) +
+          geom_line(aes(color = screen_name)) +
+          ggtitle("Tweets emitidos por @mauriciomacri y @alferdez") +
+          theme_ipsum()
 ```
 
-4. E incluso podemos ver cuántos amigos tiene cada uno:
+
+
+### Friends & Followers: 
+
+4.a. Podemos ver cuántos amigos tiene cada uno con la función *get_friends_followers*:
+```{r}
+foll_friends_mv_hl <- get_friends_followers(screen.name = c( "mariuvidal", "horaciorlarreta"))
+head(foll_friends_mv_hl)
+```
+
+b. E incluso podemos graficarlo:
 ```{r}
 library(sknifedatar)
 
-# foll_af_mm <- get_friends_followers(screen.name = c( "alferdez", "mauriciomacri"))
-# foll_af_mm %>%
-#           ggplot( aes(x=date, y=followers_count)) +
-#             geom_area(aes(fill=screen_name), alpha=0.5) +
+# foll_friends_mv_hl %>% gather(key = "tipo_interaccion", value = "value", c("friends_count", "followers_count")) %>%
+#  group_by(tipo_interaccion) %>% 
+#   tidyr::nest() %>% 
+#   mutate(
+#     .plot = purrr::map(data, ~ ggplot(.x, aes(x = Sepal.Length, y = Petal.Length)) + geom_point()),
+#     .table = purrr::map(data, ~ summary(.x) %>% knitr::kable())
+#   ) %>% 
+#   ungroup()
+# followers_plot <- foll_friends_mv_hl %>%
+#           ggplot( aes(x=as.Date(date), y=as.numeric(friends_count))) +
 #             geom_line(aes(color=screen_name)) +
-#             ylab("Followers obtenidos por @alferdez y @mauriciomacri") +
+#             ggtitle("Followers obtenidos por @alferdez y @mauriciomacri") +
+#             xlab("Fecha") +
+#             ylab("Cantidad Followers") +
 #             theme_ipsum()
+# friends_plot <- foll_friends_mv_hl %>%
+#           ggplot( aes(x=as.Date(date), y=as.numeric(friends_count))) +
+#             geom_line(aes(color=screen_name)) +
+#             ggtitle("Followers obtenidos por @alferdez y @mauriciomacri") +
+#             xlab("Fecha") +
+#             ylab("Cantidad Followers") +
+#             theme_ipsum()
+
+  
 ```
 
-3. Incluso podemos obtener la data de redes (para un periodo de tiempo y que se actualiza de manera mensual):
+### Redes 
+
+5.a. Podemos obtener la data de redes (para un periodo de tiempo y que se actualiza de manera mensual):
 ```{r}
 others_network <- get_network_data(category = "others") 
 ```
 
-```{r}
-# others_network <- others_network %>%
-#                           left_join(politicxs_data) %>%
-#                           select(screen_name_from = screen_name, retweet_user_id, value) %>%
-#                           left_join(politicxs_data, by = c("retweet_user_id"= "user_id")) %>%
-#                           select(from=screen_name_from, to = screen_name, value) %>%
-#                           drop_na()
-```
-
+5.b. También podemos hacer una nube con la info obtenida: 
 ```{r}
 library(igraph)
 library(networkD3)
-# p <- simpleNetwork(others_network, height="100px", width="100px")
-# p
+others_network <- others_network %>%
+                           left_join(politicxs_data) %>%
+                           select(screen_name_from = screen_name, retweet_user_id, value) %>%
+                           left_join(politicxs_data, by = c("retweet_user_id"= "user_id")) %>%
+                           select(from=screen_name_from, to = screen_name, value) %>%
+                           drop_na()
+
+p <- simpleNetwork(others_network, height="100px", width="100px")
+p
 ```
-
-
-
-
-
-
-
