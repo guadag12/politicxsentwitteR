@@ -67,7 +67,7 @@ head(timeline_af_mm)
 
 d. Además, podemos graficar en qué periodos de tiempos más twittearon ambos:
 ```{r}
-timeline_mev_mm %>%
+timeline_af_mm %>%
         group_by(date=as.Date(created_at), screen_name) %>%
         summarise(value = n()) %>%
         ggplot( aes(x=date, y=value)) +
