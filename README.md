@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
   
-  # Políticxs en Twitter 🔷📦 <img src="man/figures/logo.png" width="160px" align="right" />
+  # politicxsentwitteR 🔷📦 <img src="man/figures/logo.png" width="160px" align="right" />
   
   This is a the repository of the R package __"politicxsentwitteR"__. The idea is to download every data of the application of ["Politicians on Twitter"](https://oderedes.shinyapps.io/politicosentwitter/) using R.
 
