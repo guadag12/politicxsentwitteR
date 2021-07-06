@@ -11,7 +11,8 @@ The goal of politicxsentwitteR is to ...
 You can install the released version of politicxsentwitteR from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("politicxsentwitteR")
+library(devtools)
+install_github("politicxsentwitteR")
 ```
 
 ## Example
