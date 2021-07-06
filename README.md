@@ -12,7 +12,7 @@ You can install the released version of politicxsentwitteR from [CRAN](https://C
 
 ``` r
 library(devtools)
-install_github("politicxsentwitteR")
+install_github("guadag12/politicxsentwitteR")
 ```
 
 ## Example
