@@ -4,14 +4,14 @@
 \alias{get_friends_followers_all}
 \title{Download the friends and followers in a period of time by category}
 \usage{
-get_friends_followers_all(category = "all", country = "ar", historic = F)
+get_friends_followers_all(category = "all", historic = T)
 }
 \arguments{
 \item{category}{A character with the category selected -"deputies","senators","national executive","others","province servants",  "all"-}
 
-\item{country}{A character with the Alpha 2 code of the country that wants to download}
-
 \item{historic}{A logical value. Would you prefer the historic data?}
+
+\item{country}{A character with the Alpha 2 code of the country that wants to download}
 }
 \value{
 This function returns a \code{data.frame} including columns:

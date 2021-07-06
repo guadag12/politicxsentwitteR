@@ -2,6 +2,6 @@ pandoc: 2.7.3
 pkgdown: 1.6.1.9001
 pkgdown_sha: 51268b0d9cb0588d7a6404a2b8ef4ee19c435e89
 articles:
-  presentation: presentation.html
-last_built: 2021-07-05T18:44Z
+  Presentation: Presentation.html
+last_built: 2021-07-06T19:10Z
 

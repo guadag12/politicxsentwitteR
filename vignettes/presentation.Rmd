@@ -60,8 +60,8 @@ timeline_mev %>%
          group_by(date=as.Date(created_at)) %>%
          summarise(value = n()) %>%
          ggplot( aes(x=date, y=value)) +
-           geom_area(fill="#dbb012", alpha=0.5) +
-           geom_line(color="#dbb012") +
+           geom_area(fill="#ae45ff", alpha=0.5) +
+           geom_line(color="#ae45ff") +
            ggtitle("Tweets emitidos por @mariuvidal") +
            theme_ipsum()
 
@@ -85,9 +85,9 @@ timeline_af_mm %>%
         group_by(date=as.Date(created_at), screen_name) %>%
         summarise(value = n()) %>%
         ggplot( aes(x=date, y=value)) +
-          geom_area(aes(fill = screen_name), alpha=0.5) +
-          geom_line(aes(color = screen_name)) +
+          geom_line(aes(color = screen_name), alpha = 0.7) +
           ggtitle("Tweets emitidos por @mauriciomacri y @alferdez") +
+          scale_color_manual(values = c("#008cff", "#ffbb00")) + 
           theme_ipsum()
 ```
 
@@ -98,6 +98,7 @@ timeline_af_mm %>%
 4.a. Podemos ver cuántos amigos tiene cada uno con la función *get_friends_followers*:
 ```{r, eval=FALSE}
 foll_friends_mv_hl <- get_friends_followers(screen.name = c("mariuvidal", "horaciorlarreta"))
+
 ```
 
 ```{r,  include= FALSE}
@@ -119,13 +120,23 @@ library(tidyr)
 
 plot_foll_friends <- foll_friends_mv_hl %>% 
   gather(key = "tipo_interaccion", value = "value", c("friends_count", "followers_count")) %>%
+  mutate(tipo_interaccion =  case_when(
+            tipo_interaccion == "friends_count" ~  "Cantidad de Friends",
+          T ~ "Cantidad de Followers")
+          ) %>%
+  arrange(tipo_interaccion) %>%
   select(screen_name, date, tipo_interaccion, value) %>%
   nest(nested_column=-tipo_interaccion) %>%
   mutate(
     .plot = purrr::map(nested_column, ~
-                       ggplot(.x, aes(x=date, y=as.numeric(value))) + geom_line(aes(color=screen_name))
+                       ggplot(.x, aes(x=date, y=as.numeric(value))) + 
+                         geom_line(aes(color=screen_name)) + theme_minimal() +
+                        scale_color_manual(values = c("#ffbb00", "#ae45ff")) +
+                        labs( y = "Cantidad")
+                                  )
     )
-  )
+
+plot_foll_friends$.plot[1]
 ```
 
 ```{r, echo=FALSE}
