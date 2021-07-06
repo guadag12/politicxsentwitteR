@@ -1,0 +1,2 @@
+"0","foll_friends_mv_hl$date <- as.Date(foll_friends_mv_hl$date)"
+"0","head(foll_friends_mv_hl,2)"

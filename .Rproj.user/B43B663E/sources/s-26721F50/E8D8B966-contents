@@ -1,0 +1,119 @@
+### nota oder
+library(politicxsentwitteR)
+library(tidyverse)
+head(carla)
+domain <- function(x) strsplit(gsub("http://|https://|www\\.", "", x), "/")[[c(1, 1)]]
+library(urltools)
+library(gridExtra)
+
+suffix_extract(domain(c(carla[complete.cases(carla[ , "urls_url"]),"urls_url"])))
+
+
+
+
+### podemos ver a quién más menciona
+data1 <- data
+data <- data1
+data <- get_timeline_data(screen.name = "dalesmm")
+
+data$mentions_screen_name <- gsub(pattern = "[c(]", replacement = "", data$mentions_screen_name)
+data$mentions_screen_name <- gsub(pattern = "[)]", replacement = "", data$mentions_screen_name)
+data$mentions_screen_name <- gsub(pattern = "[\]", replacement = "", data$mentions_screen_name)
+data$mentions_screen_name <- gsub(pattern = '\"', replacement = "", data$mentions_screen_name)
+data$mentions_screen_name <- gsub(pattern = ' ', replacement = "", data$mentions_screen_name)
+head(data$mentions_screen_name)
+png("/Users/guadalupegonzalez/Documents/GitHub/politicxsentwitteR/oder_presentation/data_timeline.png", 
+    50*nrow(head(data[,c(1:5)])), width = 200*ncol(head(data[,c(1:5)])))
+p<-tableGrob(head(data[,c(1:5)]))
+grid.arrange(p)
+dev.off()
+head(data)
+data %>%
+  filter(is_retweet == F) %>%
+  select(mentions_screen_name) %>% 
+  separate_rows(mentions_screen_name, convert = T, sep = ",") %>%
+  filter( nchar(mentions_screen_name)> 1) %>%
+  group_by(mentions_screen_name) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  head(15) %>% 
+  ggplot() + 
+  geom_bar(aes(reorder(mentions_screen_name,n), n, fill = n), stat = 'identity') + 
+  scale_fill_viridis_c() +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(
+    title = 'Usuarios más mencionados por @dalesmm',
+    x = 'users', 
+    y = 'count') 
+
+data_ne <- get_timeline_data_all(category =  "national executive")
+
+library(urltools)
+data_ne_domains <- suffix_extract(domains = data_ne[complete.cases(data_ne[ , "urls_url"]),"urls_url"]) %>%
+              drop_na(domain)
+data_ne_domains %>% 
+  group_by(domain) %>% 
+  count() %>% 
+  arrange(desc(n)) %>%
+  head(15) %>% 
+  ggplot() + 
+  geom_bar(aes(reorder(domain,n), n, fill = n), stat = 'identity') + 
+  scale_fill_viridis_c() +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(
+    title = 'Dominios más mencionados por funcionarios del PEN',
+    x = 'domain', 
+    y = 'count') 
+
+
+## FAVORITOS
+library(viridis)
+
+data_foll_fr <- get_friends_followers(screen.name = c("mariuvidal", "horaciorlarreta"))
+data_foll_fr %>%
+  ggplot( aes(x=as.Date(date), y=as.numeric(followers_count), group=screen_name, color=screen_name)) +
+  geom_line() +
+  scale_color_viridis(discrete = TRUE) +
+  theme(
+    legend.position="none",
+    plot.title = element_text(size=14)
+  ) +
+  theme_bw() +
+  labs(title = "Cantidad de seguidores de @horaciorlarreta y @mariuvidal", 
+       x = "date", 
+       y = "followers count")
+
+data_foll_fr_oth <- get_friends_followers_all(category = "others")
+# more_followers <- data_foll_fr_oth %>%
+#   group_by(screen_name) %>%
+#   summarise(mean_ = mean(as.numeric(followers_count), na.rm = T)) %>%
+#   arrange(desc(mean_)) %>%
+#   head(10)
+# 
+# ggplot(data_foll_fr_oth %>% filter(data_foll_fr_oth$screen_name %in% more_followers$screen_name), 
+#        aes(x=as.Date(date), y=as.numeric(followers_count), group = screen_name)) +
+#   geom_line( color="grey", size=0.5, alpha=0.5) +
+#   geom_line( aes(color=screen_name), color="#69b3a2", size=1.2 )+
+#   scale_color_viridis(discrete = TRUE) +
+#   theme(
+#     legend.position="none",
+#     plot.title = element_text(size=14),
+#     panel.grid = element_blank()
+#   ) +
+#   ggtitle("A spaghetti chart of baby names popularity") +
+#   facet_wrap(~screen_name)
+#   
+library(politicxsentwitteR)
+library(networkD3)
+
+network <- get_network_data(category = "others", start_date = "2020-03-01", end_date = "2020-05-01")
+network <- network %>%
+  left_join(politicxs_data) %>%
+  select(screen_name_from = screen_name, retweet_user_id, value) %>%
+  left_join(politicxs_data, by = c("retweet_user_id"= "user_id")) %>%
+  select(from=screen_name_from, to = screen_name, value) %>%
+  drop_na()
+#> Joining, by = "user_id"
+
+p <- simpleNetwork(network, height="100px", width="100px")
+p
