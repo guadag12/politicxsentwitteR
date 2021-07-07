@@ -26,7 +26,6 @@
 #' @seealso \link[rtweet]{get_followers}
 #' @seealso \link[rtweet]{get_friends}
 
-
 get_friends_followers <- function(screen.name) {
 
   url_path <- download_url(1)
@@ -69,3 +68,4 @@ get_friends_followers <- function(screen.name) {
 
   cat(crayon::green$bold("Congrats, the data of", screen.name, "is download" ))
 }
+

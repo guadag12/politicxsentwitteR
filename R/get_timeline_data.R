@@ -51,7 +51,6 @@
 #' @seealso \link[rtweet]{search_tweets}
 #'
 
-
 get_timeline_data <- function(screen.name){
 
   url_path <- download_url(1)
@@ -103,3 +102,4 @@ get_timeline_data <- function(screen.name){
 
   cat(crayon::green$bold("Congrats, the data of", screen.name, "is download ✨"))
 }
+

@@ -51,6 +51,7 @@
 #' @seealso \link[rtweet]{search_tweets}
 #'
 
+
 get_timeline_data_all <- function(category="all"){
   if(!category %in% c('all','deputies','national executive','others','province servants', 'senators')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators'. ")}
 

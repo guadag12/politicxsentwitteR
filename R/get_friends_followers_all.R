@@ -26,6 +26,7 @@
 #' @seealso get_friends_followers
 
 
+
 get_friends_followers_all <- function(category="all", historic = T){
 
   url_path <- download_url(1)
