@@ -1,0 +1,245 @@
+#
+# This is a Shiny web application. 
+#
+# Librerias--------------------------------------------------------------
+library(shiny)
+library(shinythemes)
+library(mongolite)
+library(dplyr)
+#library(glue)
+library(DT)
+library(shinydashboard)
+library(sqldf)
+library(tidyverse)
+library(lubridate)
+library(shinycssloaders)
+library(plotly)
+library(highcharter)
+library(tidyverse)
+library(stringi)
+library(stringr)
+library(tidytext)
+library(RColorBrewer)
+library(emo)
+library(writexl)
+library(wordcloud2)
+library(emojifont)
+library(dygraphs)
+library(xts)
+library(shiny.i18n)
+require(visNetwork)
+#help(load_local_config)
+install.packages("networkDynamic")
+library(networkDynamic)
+install.packages("ndtv")
+library(ndtv)
+
+#devtools::install_github("hadley/emo")
+#library(tweetrmd)
+#library(httr)
+#library(webshot2)
+rm(list=ls()) #borramos del environment todos los elementos
+options(scipen = 999)
+
+## nos conectamos a mongolite -----------------------------------------
+url_path = 'mongodb+srv://guadag12:Ppincha777@cluster0.gxwrq.mongodb.net/admin' #pen,, config
+url_path_2 = 'mongodb+srv://guadag12:Ppincha777@cluster0.1b8mt.mongodb.net/test' # hcdn
+url_path_3 = 'mongodb+srv://guadag12:Ppincha777@cluster0.j59fq.mongodb.net/test' # hcsm
+url_path_4 = 'mongodb+srv://guadag12:Ppincha777@cluster0.mh1ca.mongodb.net/admin' #otros, prov
+url_path_5 = 'mongodb+srv://guadag12:Ppincha777@cluster0.bwilj.mongodb.net/test' # data net + data colors
+
+# descargamos los datasetzs necesarios -------------------------------------
+
+## lista_politicxs ------
+
+my_data <- mongo(collection = "lista_politicxs", # Data Table
+                 db = "configuration_db", # DataBase
+                 url = url_path, 
+                 verbose = TRUE)
+data_politicxs <- my_data$find(query = '{}')
+data_politicxs$imagen_circle <- gsub(pattern = "_normal", replacement = "_400x400",data_politicxs$profile_image_url)
+
+### data crecimiento ------
+
+data_crec_db <- mongo(collection = "data_crec", # Data Table
+                      db = "CREC_db", # DataBase
+                      url = url_path, 
+                      verbose = TRUE)
+data_crec <- data_crec_db$find(query = '{}')
+data_crec <- data_crec[(data_crec$date == "2021-05-09"),]
+data_crec$followers_count <- as.numeric(data_crec$followers_count) 
+#data_crec <- data_crec[data_crec$followers_count > quantile(data_crec$followers_count, 0.90),]
+
+my_data <- mongo(collection = "data_colors", # Data Table
+                 db = "data_net", # DataBase
+                 url = url_path_5, 
+                 verbose = TRUE)
+data_colors <- my_data$find('{}')
+data_colors <- data_colors[data_colors$color %in% c("#f7630c", "#fff100", "#886ce4"),]
+my_data_base <- mongo(collection = "alferdez", # Data Table
+                      db = "PEN_db", # DataBase
+                      url = url_path,
+                      verbose = TRUE)
+data_base <- my_data_base$find(query = '{"status_id":"1337062667576627200"}')
+data_base <- data_base[0,]
+
+my_data_2 <- mongo(collection = "data_network_mensual", # Data Table
+                   db = "data_net", # DataBase
+                   url = url_path_5, 
+                   verbose = TRUE)
+data_net <- my_data_2$find('{}')
+data_net <-data_net %>%
+  filter(month_year > "2021-04-01")
+data_net$month_year <- as.Date(data_net$month_year)
+#data = c(NA)
+#x =Sys.Date()+1
+#links_cambiemos$date = seq(as.Date("2020-01-01"), as.Date("2014-12-31"), by=1)
+
+#as.Date("2020-01-01")+3404
+#rm(i)
+#table(data_colors$color)
+# TIENEN QUE SUPERAR UNA CANT DE SEGUIDORES O PERTENECER A DETERMINADOS COLORES
+#data_net <- data_net %>% filter(((user_id %in% data_crec$user_id) & (retweet_user_id %in% data_crec$user_id)) | 
+#                      ((user_id %in% data_colors[data_colors$color %in% c("#e81224","#8e562e", "#f7630c"),"id"]) &
+#                      (retweet_user_id %in% data_colors[data_colors$color %in% c("#e81224","#8e562e", "#f7630c"), "id"])) )
+#0078d7 #886ce4 #8e562e #e81224 #f7630c #fff100# 
+#221      42       6      12      26     203 
+
+data_net <- data_net %>% filter(((user_id %in% data_colors[,"id"]) &
+                                     (retweet_user_id %in% data_colors[, "id"])) )
+
+#for(i in links_cambiemos$date){
+#  links_cambiemos$date[i]  <- x
+#  x = x+1
+#  print(i) 
+#  }
+
+# Preparacion datos -------------------------------------------------------------
+
+#nodes <-  gather(data_net, key = "tipo", value = "identificacion",
+#                 c("user_id","retweet_user_id"))
+#nodes <- sqldf("SELECT *, COUNT(*) as count FROM nodes
+#               GROUP BY identificacion HAVING COUNT(*)")
+#nodes <- nodes %>% select(identificacion, count)
+#nodes <- nodes[!is.na(nodes$identificacion),]
+#nodes$id_2 = nodes$identificacion
+#nodes <- nodes %>% rename(id = identificacion, label = id_2, value = count)
+#data_colors$id <- as.character(as.numeric(data_colors$id))
+# unimos con data colors
+#nodes <- left_join( nodes, data_colors, by = "id")  %>%
+#  select(id, value, screen_name, color) %>%
+#  rename(label=screen_name)
+#nodes[ is.na(nodes$value ), "value"] <- 0
+
+#cambiemos <- sqldf("SELECT * FROM nodes
+#                   WHERE color = '#fff100'")
+#fdt <- sqldf("SELECT * FROM nodes
+#                   WHERE color = '#0078d7'")
+#table(nodes$color)
+
+# armamos los edges -------------------------------------
+data_net$value <- as.numeric(as.character(data_net$value))
+links <- data_net %>%
+  group_by(retweet_user_id, user_id) %>%
+  summarise(cantidad = sum(value)) %>%
+  rename(from = user_id,
+         to = retweet_user_id,
+         friendship = cantidad)
+links <- links[!is.na(links$from),]
+links <- links[!is.na(links$friendship),]
+links <- links[!is.na(links$to),]
+
+links[c(1:100),"date"] <- "2020-04-01"
+links[c(101:200),"date"] <- "2020-04-02"
+links[c(201:300),"date"] <- "2020-04-03"
+links[c(301:400),"date"] <- "2020-04-04"
+links[c(401:500),"date"] <- "2020-04-05"
+links[c(501:600),"date"] <- "2020-04-06"
+links[c(601:700),"date"] <- "2020-04-07"
+links[c(701:800),"date"] <- "2020-04-08"
+links[c(801:888),"date"] <- "2020-04-09"
+
+links[c(1:11),"date"] <- "2020-04-01"
+links[c(12:21),"date"] <- "2020-04-02"
+links[c(22:31),"date"] <- "2020-04-03"
+links[c(32:46),"date"] <- "2020-04-04"
+links[c(42:51),"date"] <- "2020-04-05"
+links[c(52:61),"date"] <- "2020-04-06"
+links[c(62:63),"date"] <- "2020-04-07"
+
+links$date = as.Date(links$date)
+
+
+df = data.frame(date =links$date, from= links$from, to = links$to,  
+                stringsAsFactors = FALSE)
+df$date = as.Date(df$date)
+#df <- links
+df$day=as.numeric(format(as.Date(df$date,format="%Y-%m-%d"), format = "%d"))
+ids<-unique(c(df$from,df$to))
+#covert ids
+df$head<- match(df$from,ids)
+df$tail<- match(df$to,ids)
+df$onset = as.numeric(df$day)
+df$onset <- as.numeric(df$onset)
+class(df$onset)
+df$terminus = max(as.numeric(df$day))
+net<-networkDynamic(edge.spells=df[,c("onset","terminus","head","tail")])
+network.vertex.names(net)<-ids
+# compute the animation at 10-day interval
+compute.animation(net,slice.par=list(start=min(df$onset),end=max(df$terminus),
+                                     interval=1,
+                                     aggregate.dur=1,
+                                     animation.mode = "kamadakawai",
+                                     rule='any'))
+# render out the animation
+render.animation(net)
+ani.replay()
+# Adding info
+net %v% "variable" <- c(2,2,4,5,10)
+net %v% 'id'<- as.character(df$id)
+net %v% "sizevar" <- sample(5:10,vcount(g),T)
+net %e% "type" <- sample(LETTERS[1:4],ecount(g),T) 
+net %e% "weight"  <- igraph::degree(g)
+render.d3movie(net, 
+               usearrows = F, 
+               displaylabels = F, 
+               bg="#266099",
+               vertex.border="#b3b4b5", 
+               vertex.col = '#f5f6f7',
+               vertex.cex = sqrt(net %v% "variable")/4,
+               #edge.lwd = (net3 %e% "weight")/3, 
+               edge.col = '#b3b4b5',
+               launchBrowser=T, filename="network_test_otrxs.html" )
+
+# intento net3 ------------------------------------------------------------
+
+
+
+
+
+
+net3 <- network(links,  vertex.attr=nodes, matrix.type="edgelist", 
+                loops=F, multiple=F, ignore.eval = F)
+vs <- data.frame(onset=0, terminus=50, vertex.id=1:17)
+es <- data.frame(onset=1:49, terminus=50, 
+                 head=as.matrix(net3, matrix.type="edgelist")[,1],
+                 tail=as.matrix(net3, matrix.type="edgelist")[,2])
+
+net3.dyn <- networkDynamic(base.net=net3, edge.spells=es, vertex.spells=vs)
+# Armado nube net -------------------------------------------------------------
+
+visNetwork(nodes, links) %>%
+  visIgraphLayout() %>%
+  visNodes(
+    shape = "dot",
+    shadow = list(enabled = TRUE, size = 10)
+  ) %>%
+  visEdges(
+    shadow = FALSE,
+    color = list(color = "#C4C4C4", highlight = "#C4C4C4"), length = 1000
+  ) %>%
+  visOptions(highlightNearest = list(enabled = T, degree = 1,
+                                     hover = T)) %>%
+  visPhysics(enabled = F, solver = "repulsion", repulsion = list(nodeDistance = 1000)) %>%
+  visInteraction(navigationButtons = TRUE) %>%
+  visLegend(position = "right")

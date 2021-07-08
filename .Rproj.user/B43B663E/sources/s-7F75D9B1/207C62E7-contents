@@ -1,0 +1,89 @@
+#' Download the timeline data for a group of users
+#'
+#' This download most of the tweets write by this politician on Twitter
+#'
+#' @param category  A character with the category selected -"deputies","senators","national executive","others","province servants",  "all"-
+#' @import mongolite
+#' @importFrom dplyr bind_rows
+#' @export
+#' @examples
+#' get_timeline_data_all(category = "national executive")
+#'
+#' @return This function returns a \code{data.frame} including columns:
+#' \itemize{
+#' \item user_id
+#' \item status_id
+#' \item created_at
+#' \item screen_name
+#' \item text
+#' \item source
+#' \item is_quote
+#' \item is_retweet
+#' \item favorite_count
+#' \item retweet_count
+#' \item lang
+#' \item status_url
+#' \item name
+#' \item mentions_user_id
+#' \item mentions_screen_name
+#' \item retweet_status_id
+#' \item retweet_text
+#' \item retweet_created_at
+#' \item retweet_source
+#' \item retweet_favorite_count
+#' \item retweet_retweet_count
+#' \item retweet_user_id
+#' \item retweet_screen_name
+#' \item retweet_name
+#' \item retweet_followers_count
+#' \item retweet_friends_count
+#' \item retweet_statuses_count
+#' \item retweet_location
+#' \item retweet_description
+#' \item retweet_verified
+#' \item reply_to_user_id
+#' \item reply_to_screen_name
+#' \item urls_url
+#' \item urls_t_co
+#' }
+#'
+#' @export
+#' @seealso \link[rtweet]{search_tweets}
+#'
+
+
+get_timeline_data_all <- function(category="all"){
+  if(!category %in% c('all','deputies','national executive','others','province servants', 'senators')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators'. ")}
+
+  url_path <- download_url(1)
+  data_politicxs <- download_list()
+
+  j = 1
+  for(i in data_politicxs[(data_politicxs$category %in% category), "screen_name"]){
+
+    if(!is.character(category) ){stop("category must be character")}
+    if(!category %in% data_politicxs$category ){stop("the selected category doesn't exist.
+                                                   Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators'. ")}
+
+    else{
+      my_query_2 <-  mongolite::mongo(collection = i,
+                                      db = paste0(data_politicxs[data_politicxs$screen_name == i, 'database']),
+                                      url = paste0(data_politicxs[data_politicxs$screen_name == i, 'url_path']),
+                                      verbose = TRUE)
+      data_timeline <- my_query_2$find(query = '{}')
+
+      if(j == 1){
+        data <- data_timeline[0,]
+        data <- dplyr::bind_rows(data)
+      }
+      else{
+        data <-  dplyr::bind_rows(data, data_timeline)}
+      j=j+1
+
+    }
+
+  }
+  return(data)
+  cat(crayon::green$bold("Congrats, the data of", category, "is download \n"))
+
+}
