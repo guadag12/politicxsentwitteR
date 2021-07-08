@@ -1,6 +1,0 @@
-library(devtools)
-usethis::use_vignette("Instalacion-y-funciones")
-library(pkgdown)
-build_article(name = "Instalacion-y-funciones")
-build_site(
-)
