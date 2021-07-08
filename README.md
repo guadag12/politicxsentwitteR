@@ -3,7 +3,7 @@
   # politicxsentwitteR 🐦📦 <img src="man/figures/logo.png" width="160px" align="right" />
 
 ![version](https://img.shields.io/badge/version-0.0.9-green)   
-![](https://visitor-badge.glitch.me/badge?page_id=guadag12.politicxsentwitteR&style=flat-square&color=0088cc) 
+![h](https://visitor-badge.glitch.me/badge?page_id=guadag12.politicxsentwitteR&style=flat-square&color=0088cc) 
   
   This is a the repository of the R package __"politicxsentwitteR"__. The idea is to download every data of the application of ["Politicians on Twitter"](https://oderedes.shinyapps.io/politicosentwitter/) using R.
 
