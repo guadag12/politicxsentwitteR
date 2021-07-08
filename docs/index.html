@@ -82,7 +82,7 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p>#politicxsentwitteR 🔷📦 <img src="reference/figures/logo.png" width="160px" align="right"></p>
+<h1>#politicxsentwitteR 🐦📦 <img src="reference/figures/logo.png" width="160px" align="right"></h1>
 <p>Este es un paquete en R que sirve para descargar data en real time de la aplicación de <a href="https://oderedes.shinyapps.io/politicosentwitter/" class="external-link">“Políticos/as on Twitter”</a> using R.</p>
 <!-- Use twitter from R. Get started by reading `vignette("rtweet")`. -->
 <h2 class="hasAnchor">
@@ -95,25 +95,25 @@
 <h2 class="hasAnchor">
 <a href="#usage-" class="anchor" aria-hidden="true"></a>Usage 🌟</h2>
 <p>Una de las mejores cosas del paquete es que no necesitas la autenticación de la API de Twitter para poder descargar la data. Sino que podes acceder de manera fácil y simple a data reutilizable para la gran mayoria de politicxs de Argentina. Incluso, podes encontrar la <a href="https://github.com/Guadag12/polentw/raw/master1/data/data_politicos.rda" class="external-link">lista completa de usuarios acá!</a></p>
-<h3>  Obtené el timeline de los politicxs: 🤳 👇:</h3>
+<h4>  Obtené el timeline de los politicxs: 🤳 👇:</h4>
 <p> Encontrá cada tweet - incluidos retweets- para uno o más usuarios:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_timeline_data.html">get_timeline_data</a></span><span class="op">(</span>screen.name <span class="op">=</span> <span class="st">"alferdez"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></code></pre></div>
-<h3>Obtené el timeline de los politicxs de una determinada categoria:  🤳 👇</h3>
+<h4>Obtené el timeline de los politicxs de una determinada categoria:  🤳 👇</h4>
 <p> Encontrá cada tweet - incluidos retweets- de uno o más usuarios para una o más categorias (‘all’,‘deputies’,‘national executive’,‘others’,‘province servants’, ‘senators’)</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">timelines_others_senators</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_timeline_data_all.html">get_timeline_data_all</a></span><span class="op">(</span>category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'others'</span>,<span class="st">'senators'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<h3> Conocé la evolución de amigos y followers por día por usuario 👥:</h3>
+<h4> Conocé la evolución de amigos y followers por día por usuario 👥:</h4>
 <p>Descargá cuántos amigos y followers gana o pierde cada usuario por día:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">friends_followers_SM</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_friends_followers.html">get_friends_followers</a></span><span class="op">(</span>screen.name <span class="op">=</span> <span class="st">"SergioMassa"</span><span class="op">)</span></code></pre></div>
-<h3>Obtené la evolución de amigos y followers de cada usuario por categoria: 👥:</h3>
+<h4>Obtené la evolución de amigos y followers de cada usuario por categoria: 👥:</h4>
 <p>Conocé cuántos friends y followers gana o pierde por día por usuario para todos los funcionarios públicos o para aquellos que esten dentro de una determinada categoría (‘all’,‘deputies’,‘national executive’,‘others’,‘province servants’, ‘senators’):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">friends_followers_prov_national</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_friends_followers_all.html">get_friends_followers_all</a></span><span class="op">(</span>category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'province servants'</span>,<span class="st">'national executive'</span> <span class="op">)</span>,  historic <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Ademas, podes obtener la data diaria de friends y followers usando el parametro "historic", que por default es “TRUE”, pero si queres el dato del último día podes obtenerlo con "historic = FALSE".</p>
-<h3> Realizá una network de usuarios 🕸🤓:</h3>
+<h4> Realizá una network de usuarios 🕸🤓:</h4>
 <p> Conocé quiénes se retweetean entre sí a lo largo del tiempo:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_network_data.html">get_network_data</a></span><span class="op">(</span>category<span class="op">=</span> <span class="st">"all"</span>, start_date<span class="op">=</span> <span class="st">"2021-01-01"</span>, end_date <span class="op">=</span> <span class="st">"2021-03-31"</span><span class="op">)</span></code></pre></div>
