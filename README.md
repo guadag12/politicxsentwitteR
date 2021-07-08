@@ -1,7 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
   
-  # politicxsentwitteR 🐦📦 
- <img src="man/figures/logo.png" width="160px" align="right" />
+  # politicxsentwitteR 🐦📦  <img src="man/figures/logo.png" width="160px" align="right" />
 
 ![version](https://img.shields.io/badge/version-0.0.0.9-green)   ![](https://visitor-badge.glitch.me/badge?page_id=guadag12.politicxsentwitteR&style=flat-square&color=0088cc) 
 
