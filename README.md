@@ -15,6 +15,7 @@
  ``` r 
 library(devtools)
 install_github("guadag12/politicxsentwitteR")
+library(politicxsentwitteR)
 ```
 
 ## Usage 🌟
