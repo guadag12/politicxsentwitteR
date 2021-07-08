@@ -1,0 +1,151 @@
+---
+title: "Instalacion-y-funciones"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Instalacion-y-funciones}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+### Instalación 📩📦:
+
+1. Instalamos el paquete y otras librerias necesarias:
+```{r}
+library(devtools)
+#install_github("guadag12/politicxsentwitteR", force=T)
+library(politicxsentwitteR)
+```
+
+### Descargá la data de politicxs 👩📚:
+
+2. Lista de usuarios que contiene [Politicxs en twitter]()
+
+Podemos ver la lista que tenemos de funcionarios con *politicxs_data*:
+```{r}
+head(politicxs_data)
+```
+
+### Timeline de usuarios 📲:
+
+3. a. Podemos descargar sobre un usuario determinado con la función *get_timeline_data*
+
+```{r, include= FALSE}
+timeline_af <- readRDS("~/Documents/GitHub/politicxsentwitteR/data_v/timeline_af.rds")
+```
+
+```{r, eval=FALSE}
+timeline_af <- get_timeline_data("alferdez")
+```
+
+```{r}
+head(timeline_af, 2)
+```
+
+b. E incluso saber cuándo fue que más twitteó:
+```{r}
+library(tidyverse)
+library(hrbrthemes)
+
+timeline_af %>%
+         group_by(date=as.Date(created_at)) %>%
+         summarise(value = n()) %>%
+         ggplot( aes(x=date, y=value)) +
+           geom_area(fill="#dbb012", alpha=0.5) +
+           geom_line(color="#dbb012") +
+           ggtitle("Tweets emitidos por @alferdez") +
+           theme_ipsum()
+
+```
+
+c. Podemos hacerlo comparando la cantidad de tweets de más de un usuario:
+```{r, include= FALSE}
+timeline_pb_mm <- readRDS("~/Documents/GitHub/politicxsentwitteR/data_vtimeline_pb_mm.rds")
+```
+
+```{r, eval=FALSE}
+timeline_pb_mm <- get_timeline_data(screen.name = c("PatoBullrich", "mauriciomacri"))
+```
+
+```{r}
+head(timeline_pb_mm, 2)
+```
+
+
+d. Además, podemos graficar en qué periodos de tiempos más twittearon ambos:
+```{r}
+timeline_pb_mm %>%
+        group_by(date=as.Date(created_at), screen_name) %>%
+        summarise(value = n()) %>%
+        ggplot( aes(x=date, y=value)) +
+          geom_area(aes(fill = screen_name), alpha=0.5) +
+          geom_line(aes(color = screen_name)) +
+          ggtitle("Tweets emitidos por @mauriciomacri y @PatoBullrich") +
+          theme_ipsum()
+```
+
+### Friends & Followers 👥: 
+
+4.a. Podemos ver cuántos amigos tiene cada uno con la función *get_friends_followers*:
+```{r, include= FALSE}
+foll_friends_mv_hl <- readRDS("~/Documents/GitHub/politicxsentwitteR/foll_friends_mv_hl.rds")
+```
+
+```{r, eval=FALSE}
+foll_friends_mv_hl <- get_friends_followers(screen.name = c( "mariuvidal", "horaciorlarreta"))
+```
+
+```{r}
+head(foll_friends_mv_hl, 2)
+```
+
+4.b. Tambien podemos generar graficos según el tipo de interacción:
+```{r}
+foll_friends_mv_hl %>% 
+  ggplot() + 
+    geom_line(aes(x=as.Date(date), y=as.numeric(followers_count), color=screen_name)) + theme_bw() +
+    scale_color_manual(values = c("#ffbb00", "#ae45ff")) +
+    labs( x = "Fecha", y = "Cantidad", title = "Evolución de followers de @mariuvidal y @horaciorlarreta") 
+```
+
+### Redes 🤖🕸️
+
+5.a. Podemos obtener la data de redes (para un periodo de tiempo y que se actualiza de manera mensual):
+```{r, include= FALSE}
+others_network <- readRDS("~/Documents/GitHub/politicxsentwitteR/others_network.rds")
+```
+
+```{r, eval=FALSE}
+others_network <- get_network_data(category = "others") 
+```
+
+```{r}
+head(others_network, 2)
+```
+
+
+5.b. También podemos hacer una nube con la info obtenida: 
+```{r}
+library(igraph)
+library(networkD3)
+others_network <- others_network %>%
+                           left_join(politicxs_data) %>%
+                           select(screen_name_from = screen_name, retweet_user_id, value) %>%
+                           left_join(politicxs_data, by = c("retweet_user_id"= "user_id")) %>%
+                           select(from=screen_name_from, to = screen_name, value) %>%
+                           drop_na()
+
+p <- simpleNetwork(others_network, height="100px", width="100px")
+p
+```
+
+### Warnings ⚠:
+
+* La data recolectada puede estar incompleta, ya que la recolección comenzó en febrero 2021 y la API de Twitter devuelve los últimos 3200 tweets de ese usuario. En este sentido, si el usuario redactó más de 3200 tweets, muchos de ellos no van a poder ser capturados por este paquete.

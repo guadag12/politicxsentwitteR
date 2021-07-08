@@ -1,0 +1,27 @@
+Package: politicxsentwitteR
+Title: Twitter Data of National Public Servants in Argentina
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Guadalupe Andrea",
+           family = "Gonzalez",
+           role = c("aut", "cre"),
+           email = "guadagonz12@gmail.com")
+Description: Tool for download data of timelines in Twitter for public servants in Argentina. 
+    This package is an extension of “Politicxs en Twitter Shiny App” (https://oderedes.shinyapps.io/politicosentwitter/). 
+    With the functions of get_timeline_data() and get_timeline_data_all() you could download the timelines about more than 500 politicians. 
+    With get_friends_followers() and get_friends_followers_all() you have the possibility of downloading the count of friends and followers for every user in the list by a period of time.
+    Also, with the function get_network_data() you can download who’s retweet who and how many retweet a user receive.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports: dplyr, 
+    mongolite,
+    crayon
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 3.4.2)
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
