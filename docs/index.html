@@ -61,7 +61,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/Instalacion-y-funciones.html">Instalacion-y-funciones</a>
+      <a href="articles/Instalacion-y-funciones.html">Primeros pasos con "politicxsentwitteR"</a>
     </li>
   </ul>
 </li>
@@ -82,51 +82,52 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p># politicxsentwitteR 🔷📦 <img src="reference/figures/logo.png" width="160px" align="right"></p>
-<p>This is a the repository of the R package <strong>“politicxsentwitteR”</strong>. The idea is to download every data of the application of <a href="https://oderedes.shinyapps.io/politicosentwitter/" class="external-link">“Politicians on Twitter”</a> using R.</p>
+<p>#politicxsentwitteR 🔷📦 <img src="reference/figures/logo.png" width="160px" align="right"></p>
+<p>Este es un paquete en R que sirve para descargar data en real time de la aplicación de <a href="https://oderedes.shinyapps.io/politicosentwitter/" class="external-link">“Políticos/as on Twitter”</a> using R.</p>
 <!-- Use twitter from R. Get started by reading `vignette("rtweet")`. -->
-<p>## Installation 👇</p>
-<p>This is a package in a developed state. So, you can download using this code:</p>
+<h2 class="hasAnchor">
+<a href="#instalation-" class="anchor" aria-hidden="true"></a>Instalación 👇</h2>
+<p>Este paquete todavia esta en estado desarrollo. Podes descargarlo usando este codigo (vas a tener que instalar devtools previamente):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span>
 <span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"guadag12/politicxsentwitteR"</span><span class="op">)</span></code></pre></div>
 <div id="usage-" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage-" class="anchor" aria-hidden="true"></a>Usage 🌟</h2>
-<p>The best part is that there is no need to have the authentication to interact with Twitter’s APIs. You can easily access reusable data for most nationals public servants in Argentina. Find the <a href="https://github.com/Guadag12/polentw/raw/master1/data/data_politicos.rda" class="external-link">total list here!</a></p>
-<p>  ### Get the timeline of public servants 🤳 👇:</p>
-<p>Search for every tweet -including retweets- of one or more users:</p>
+<p>Una de las mejores cosas del paquete es que no necesitas la autenticación de la API de Twitter para poder descargar la data. Sino que podes acceder de manera fácil y simple a data reutilizable para la gran mayoria de politicxs de Argentina. Incluso, podes encontrar la <a href="https://github.com/Guadag12/polentw/raw/master1/data/data_politicos.rda" class="external-link">lista completa de usuarios acá!</a></p>
+<h3>  Obtené el timeline de los politicxs: 🤳 👇:</h3>
+<p> Encontrá cada tweet - incluidos retweets- para uno o más usuarios:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_timeline_data.html">get_timeline_data</a></span><span class="op">(</span>screen.name <span class="op">=</span> <span class="st">"alferdez"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></code></pre></div>
-<p>### Get the timeline of all users in a category 🤳 👇</p>
-<p>Search for every tweet -including retweets- of one or more users in one or more categories (‘all’,‘deputies’,‘national executive’,‘others’,‘province servants’, ‘senators’)</p>
+<h3>Obtené el timeline de los politicxs de una determinada categoria:  🤳 👇</h3>
+<p> Encontrá cada tweet - incluidos retweets- de uno o más usuarios para una o más categorias (‘all’,‘deputies’,‘national executive’,‘others’,‘province servants’, ‘senators’)</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">timelines_others_senators</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_timeline_data_all.html">get_timeline_data_all</a></span><span class="op">(</span>category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'others'</span>,<span class="st">'senators'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>### Get the evolution of friends and followers by day 👥:</p>
-<p>Get how many friends and followers win or lose every user by day :</p>
+<h3> Conocé la evolución de amigos y followers por día por usuario 👥:</h3>
+<p>Descargá cuántos amigos y followers gana o pierde cada usuario por día:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">friends_followers_SM</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_friends_followers.html">get_friends_followers</a></span><span class="op">(</span>screen.name <span class="op">=</span> <span class="st">"SergioMassa"</span><span class="op">)</span></code></pre></div>
-<p>### Get the evolution of friends and followers by day in a specific category 👥:</p>
-<p>Get how many friends and followers win or lose every user by day all the functionaries or some of them based on which category they belong (‘all’,‘deputies’,‘national executive’,‘others’,‘province servants’, ‘senators’):</p>
+<h3>Obtené la evolución de amigos y followers de cada usuario por categoria: 👥:</h3>
+<p>Conocé cuántos friends y followers gana o pierde por día por usuario para todos los funcionarios públicos o para aquellos que esten dentro de una determinada categoría (‘all’,‘deputies’,‘national executive’,‘others’,‘province servants’, ‘senators’):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">friends_followers_prov_national</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_friends_followers_all.html">get_friends_followers_all</a></span><span class="op">(</span>category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'province servants'</span>,<span class="st">'national executive'</span> <span class="op">)</span>,  historic <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>Moreover, check the historic data of their friends and followers using the “historic” parameter, that’s by default “FALSE”.</p>
-<p>### Get network data 🕸🤓:</p>
-<p>Get who retweets who in a given period of time:</p>
+<p>Ademas, podes obtener la data diaria de friends y followers usando el parametro "historic", que por default es “TRUE”, pero si queres el dato del último día podes obtenerlo con "historic = FALSE".</p>
+<h3> Realizá una network de usuarios 🕸🤓:</h3>
+<p> Conocé quiénes se retweetean entre sí a lo largo del tiempo:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">network</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_network_data.html">get_network_data</a></span><span class="op">(</span>category<span class="op">=</span> <span class="st">"all"</span>, start_date<span class="op">=</span> <span class="st">"2021-01-01"</span>, end_date <span class="op">=</span> <span class="st">"2021-03-31"</span><span class="op">)</span></code></pre></div>
-<p>Select the category that you want to match and the start and end date of retweets.</p>
+<p>Seleccioná la categoria correspondiente de usuarios o elegí la opción "all" para obtener la data de todos los usuarios.</p>
 </div>
 <div id="shiny-app-politicos-en-twitter-" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shiny-app-politicos-en-twitter-" class="anchor" aria-hidden="true"></a>Shiny APP: <a href="https://oderedes.shinyapps.io/politicosentwitter/" class="external-link">Politicos en Twitter</a> 🔷</h2>
-<p>Remember that this package came out as a possibility to download the data reusable and available on <a href="https://oderedes.shinyapps.io/politicosentwitter/" class="external-link">“Politicians on Twitter”</a>. That is a collaborative project between <a href="https://twitter.com/O_de_R" class="external-link">“Observatorio de redes”</a>, <a href="https://twitter.com/fundacionDER" class="external-link">“Democracia en Red”</a> y <a href="https://twitter.com/NDI" class="external-link">“National democratic Institute”</a> with the propuse to increase the production of knowledge about candidates, social media and desinformation 🙌</p>
+<p> Recordá que es este es un paquete que busca facilitar la reutilización de data disponible en <a href="https://oderedes.shinyapps.io/politicosentwitter/" class="external-link">“Politicians on Twitter”</a>. That is a collaborative project between <a href="https://twitter.com/O_de_R" class="external-link">“Observatorio de redes”</a>, <a href="https://twitter.com/fundacionDER" class="external-link">“Democracia en Red”</a> y <a href="https://twitter.com/NDI" class="external-link">“National democratic Institute”</a> with the propuse to increase the production of knowledge about candidates, social media and desinformation 🙌</p>
 </div>
 <div id="contact-️" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contact-%EF%B8%8F" class="anchor" aria-hidden="true"></a>Contact ❤️</h2>
-<p>If you encounter a bug please make an issue! Feel free to write me with doubts to my gmail: <a href="mailto:guadagonz12@gmail.com" class="email">guadagonz12@gmail.com</a> or send me a DM on Twitter: <a href="https://twitter.com/guadag12" class="external-link">guadag12</a></p>
+<p>Si encontras un error o un bug por favor generá un issue! Sentite libre de escribirme con dudas a mi gmail: <a href="mailto:guadagonz12@gmail.com" class="email">guadagonz12@gmail.com</a> o enviamé un DM en Twitter: <a href="https://twitter.com/guadag12" class="external-link">guadag12</a></p>
 </div>
 
   </div>
@@ -155,7 +156,7 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Guadalupe Andrea Gonzalez.</p>
+<p>Desarrollado por Guadalupe Andrea Gonzalez.</p>
 </div>
 
 <div class="pkgdown">
