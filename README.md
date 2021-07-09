@@ -20,7 +20,7 @@ library(politicxsentwitteR)
 
 ## Usage 🌟
 
-The best part is that there is no need to have the authentication to interact with Twitter’s APIs. You can easily access reusable data for most nationals public servants in Argentina. Find the [total list here!](https://github.com/Guadag12/polentw/raw/master1/data/politicxs_data.rda)
+The best part is that there is no need to have the authentication to interact with Twitter’s APIs. You can easily access reusable data for most nationals public servants in Argentina. Find the [total list here!](https://github.com/guadag12/politicxsentwitteR/raw/main/data/politicxs_data.rda)
 
  
  ### Get the timeline of public servants 🤳 👇:
