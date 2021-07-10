@@ -4,7 +4,7 @@
 
 ![version](https://img.shields.io/badge/version-0.0.0.9-green) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  ![](https://visitor-badge.glitch.me/badge?page_id=guadag12.politicxsentwitteR&style=flat-square&color=0088cc) 
 
-  This is a the repository of the R package __"politicxsentwitteR"__. The idea is to download every data of the application of ["Politicians on Twitter"](https://oderedes.shinyapps.io/politicosentwitter/) using R.
+  This is an R package called __"politicxsentwitteR"__. The idea is to download data of the application of ["Politicians on Twitter"](https://oderedes.shinyapps.io/politicosentwitter/) using R to make analysis. Feel free to share them with the hashtag #politicxsentwitteR
 <!-- Use twitter from R. Get started by reading `vignette("rtweet")`. -->
   
   
