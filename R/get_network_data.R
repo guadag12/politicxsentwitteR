@@ -39,7 +39,7 @@ function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
         if(!i %in% c('all','deputies','national executive','others','province servants', 'senators')){message(paste0(i:"the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators'. "))}
       }
       url_path_5 <- download_url(5)
-      data_politicxs <- quiet(download_list())
+      data_politicxs <- download_list()
 
       my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table
                                     db = "data_net", # DataBase
