@@ -15,6 +15,7 @@
   This is a package in a developed state. So, you can download using this code:
   
  ``` r 
+#install.packages("devtools")
 library(devtools)
 install_github("guadag12/politicxsentwitteR")
 library(politicxsentwitteR)
