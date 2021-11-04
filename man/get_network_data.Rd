@@ -11,7 +11,7 @@ get_network_data(
 )
 }
 \arguments{
-\item{category}{A character vector with the category selected -"deputies","senators","national executive","others","province servants",  "all"-}
+\item{category}{A character vector with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-}
 
 \item{start_date}{A character with the date where the retweets ocurr. This param read the date info in format 'yyyy-mm-dd'}
 

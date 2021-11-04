@@ -53,7 +53,6 @@
 
 get_timeline_data <- function(screen.name){
 
-  url_path <- download_url(1)
   data_politicxs <- download_list()
 
   j = 1

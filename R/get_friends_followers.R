@@ -28,7 +28,6 @@
 
 get_friends_followers <- function(screen.name) {
 
-  url_path <- download_url(1)
   data_politicxs <- download_list()
 
   if(length(screen.name) == 1){

@@ -2,7 +2,7 @@
 #'
 #' This download most of the tweets write by this politician on Twitter
 #'
-#' @param category  A character with the category selected -"deputies","senators","national executive","others","province servants",  "all"-
+#' @param category  A character with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-
 #' @import mongolite
 #' @importFrom dplyr bind_rows
 #' @export
@@ -53,9 +53,9 @@
 
 
 get_timeline_data_all <- function(category="all"){
-  if(!category %in% c('all','deputies','national executive','others','province servants', 'senators')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators'. ")}
+  if(!category %in% c('all','deputies','national executive','others','province servants', 'senators', 'candidates')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. ")}
 
-  url_path <- download_url(1)
+
   data_politicxs <- download_list()
 
   j = 1
@@ -63,7 +63,7 @@ get_timeline_data_all <- function(category="all"){
 
     if(!is.character(category) ){stop("category must be character")}
     if(!category %in% data_politicxs$category ){stop("the selected category doesn't exist.
-                                                   Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators'. ")}
+                                                   Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. ")}
 
     else{
       my_query_2 <-  mongolite::mongo(collection = i,

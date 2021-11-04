@@ -7,7 +7,7 @@
 get_timeline_data_all(category = "all")
 }
 \arguments{
-\item{category}{A character with the category selected -"deputies","senators","national executive","others","province servants",  "all"-}
+\item{category}{A character with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-}
 }
 \value{
 This function returns a \code{data.frame} including columns:

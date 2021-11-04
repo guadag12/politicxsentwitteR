@@ -3,7 +3,7 @@
 #' This download a time series with the evolution of friends, followers, listed, statuses, likes
 #' and the created date of the account with the possibility of download the historic data by category
 #'
-#' @param category  A character with the category selected -"deputies","senators","national executive","others","province servants",  "all"-
+#' @param category  A character with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-
 #' @param country   A character with the Alpha 2 code of the country that wants to download
 #' @param historic   A logical value. Would you prefer the historic data?
 #' @import mongolite
@@ -28,8 +28,6 @@
 
 
 get_friends_followers_all <- function(category="all", historic = T){
-
-  url_path <- download_url(1)
   data_politicxs <- download_list()
 
   if(!is.character(category) ) { stop("category must be character") }
@@ -41,7 +39,7 @@ get_friends_followers_all <- function(category="all", historic = T){
     #si no es historico
     if(!category %in% data_politicxs$category ){
       stop(paste0("the selected category doesn't exist. Trying choose between some of this:
-                                                   'all','deputies','national executive','others','province servants', 'senators'. "))
+                                                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))
     }
     else{
     data_crec_db <- mongolite::mongo(collection = "data_crec", # Data Table
@@ -55,7 +53,7 @@ get_friends_followers_all <- function(category="all", historic = T){
   if(category == "all"  & historic == T ){
     if(!category %in% data_politicxs$category ){
       stop(paste0("the selected category doesn't exist. Trying choose between some of this:
-                                                   'all','deputies','national executive','others','province servants', 'senators'. "))
+                                                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))
     }
     else{
     data_crec_db <- mongolite::mongo(collection = "data_crec", # Data Table
@@ -68,7 +66,7 @@ get_friends_followers_all <- function(category="all", historic = T){
   if(category != "all"  & historic == F){
     if(!category %in% data_politicxs$category ){
       stop(paste0("the selected category doesn't exist. Trying choose between some of this:
-                                                   'all','deputies','national executive','others','province servants', 'senators'. "))
+                                                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))
     }
     else{
     data_crec_db <- mongolite::mongo(collection = "data_crec",
@@ -84,7 +82,7 @@ get_friends_followers_all <- function(category="all", historic = T){
   if(category != "all" & historic == T){
     if(!category %in% data_politicxs$category ){
       stop(paste0("the selected category doesn't exist. Trying choose between some of this:
-                                                   'all','deputies','national executive','others','province servants', 'senators'. "))
+                                                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))
     }
     else{
 

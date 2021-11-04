@@ -2,7 +2,7 @@
 #'
 #' This function download all the retweets that every user on the list of politician on twitter made with each others
 #'
-#' @param category A character vector with the category selected -"deputies","senators","national executive","others","province servants",  "all"-
+#' @param category A character vector with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-
 #' @param start_date   A character with the date where the retweets ocurr. This param read the date info in format 'yyyy-mm-dd'
 #' @param end_date   A character with the date where the retweets stop. This param read the date info in format 'yyyy-mm-dd'
 #' @import mongolite
@@ -16,9 +16,8 @@
 get_network_data <-
 function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
     if(length(category)==1){
-      if(!category %in% c('all','deputies','national executive','others','province servants', 'senators')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators'. ")}
+      if(!category %in% c('all','deputies','national executive','others','province servants', 'senators', 'candidates')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. ")}
 
-      url_path_5 <- download_url(5)
       data_politicxs <- download_list()
 
       my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table
@@ -36,9 +35,8 @@ function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
     }
     else{
       for(i in category){
-        if(!i %in% c('all','deputies','national executive','others','province servants', 'senators')){message(paste0(i:"the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators'. "))}
+        if(!i %in% c('all','deputies','national executive','others','province servants', 'candidates', 'senators')){message(paste0(i:"the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))}
       }
-      url_path_5 <- download_url(5)
       data_politicxs <- download_list()
 
       my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table

@@ -7,7 +7,7 @@
 get_friends_followers_all(category = "all", historic = T)
 }
 \arguments{
-\item{category}{A character with the category selected -"deputies","senators","national executive","others","province servants",  "all"-}
+\item{category}{A character with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-}
 
 \item{historic}{A logical value. Would you prefer the historic data?}
 

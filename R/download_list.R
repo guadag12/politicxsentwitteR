@@ -7,7 +7,7 @@
 
 download_list <-
   function(){
-    url_path <- download_url(1)
+    url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test' #pen,, config
     data_politicxs_md <- mongolite::mongo(collection = "data_politicxs_package2", # Data Table
                                           db = "configuration_db", # DataBase
                                           url = url_path,
