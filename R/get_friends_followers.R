@@ -28,12 +28,13 @@
 
 get_friends_followers <- function(screen.name) {
 
-  data_politicxs <- download_list()
+  url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test'
+
 
   if(length(screen.name) == 1){
       data_crec_db <-  mongolite::mongo(collection = "data_crec", # Data Table
                                         db = "CREC_db", # DataBase
-                                        url = download_url(1),
+                                        url = url_path,
                                         verbose = TRUE)
       data <- data_crec_db$find(paste0('{"screen_name" : ','"', screen.name, '"','}') )
     }
@@ -45,7 +46,7 @@ get_friends_followers <- function(screen.name) {
         }
           data_crec_db <-  mongolite::mongo(collection = "data_crec", # Data Table
                                             db = "CREC_db", # DataBase
-                                            url = download_url(1),
+                                            url = url_path,
                                             verbose = TRUE)
           data_crec <- data_crec_db$find(paste0('{"screen_name" : ','"', i, '"','}') )
 
