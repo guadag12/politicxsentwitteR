@@ -17,6 +17,7 @@ get_network_data <- function(category= "all", start_date= "2021-01-01", end_date
 
   url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test'
 
+  data_politicxs <- download_list()
 
     if(length(category)==1){
       if(!category %in% c('all','deputies','national executive','others','province servants', 'senators', 'candidates')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. ")}

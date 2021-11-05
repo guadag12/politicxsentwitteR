@@ -29,7 +29,7 @@
 get_friends_followers <- function(screen.name) {
 
   url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test'
-
+  data_politicxs <- download_list()
 
   if(length(screen.name) == 1){
       data_crec_db <-  mongolite::mongo(collection = "data_crec", # Data Table
