@@ -14,13 +14,14 @@
 
 
 get_network_data <- function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
-  url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test' #pen,, config
+
+  url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test'
 
 
     if(length(category)==1){
       if(!category %in% c('all','deputies','national executive','others','province servants', 'senators', 'candidates')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. ")}
 
-      data_politicxs <- download_list()
+     # data_politicxs <- download_list()
 
       my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table
                                     db = "data_net", # DataBase
@@ -39,7 +40,7 @@ get_network_data <- function(category= "all", start_date= "2021-01-01", end_date
       for(i in category){
         if(!i %in% c('all','deputies','national executive','others','province servants', 'candidates', 'senators')){message(paste0(i:"the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))}
       }
-      data_politicxs <- download_list()
+      #data_politicxs <- download_list()
 
       my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table
                                     db = "data_net", # DataBase
