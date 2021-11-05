@@ -13,8 +13,10 @@
 #'
 
 
-get_network_data <-
-function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
+get_network_data <- function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
+  url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test' #pen,, config
+
+
     if(length(category)==1){
       if(!category %in% c('all','deputies','national executive','others','province servants', 'senators', 'candidates')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. ")}
 
@@ -22,7 +24,7 @@ function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
 
       my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table
                                     db = "data_net", # DataBase
-                                    url = url_path_5,
+                                    url = url_path,
                                     verbose = TRUE)
       data_net <- my_data_2$find('{}')
       data_net <-data_net[((data_net$month_year >= start_date) &
@@ -41,7 +43,7 @@ function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
 
       my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table
                                     db = "data_net", # DataBase
-                                    url = url_path_5,
+                                    url = url_path,
                                     verbose = TRUE)
       data_net <- my_data_2$find('{}')
       data_net <-data_net[((data_net$month_year >= start_date) &
