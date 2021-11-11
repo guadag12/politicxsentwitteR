@@ -16,6 +16,7 @@
 get_network_data <- function(category= "all", start_date= "2021-01-01", end_date = "2021-03-31"){
 
   url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test'
+  url_path_5 =  'mongodb+srv://new_user_db:password_new_123@cluster0.bwilj.mongodb.net/test'
 
   data_politicxs <- download_list()
 
@@ -24,9 +25,9 @@ get_network_data <- function(category= "all", start_date= "2021-01-01", end_date
 
      # data_politicxs <- download_list()
 
-      my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table
+      my_data_2 <- mongolite::mongo(collection = "data_network_diario", # Data Table
                                     db = "data_net", # DataBase
-                                    url = url_path,
+                                    url = url_path_5,
                                     verbose = TRUE)
       data_net <- my_data_2$find('{}')
       data_net <-data_net[((data_net$month_year >= start_date) &
@@ -45,7 +46,7 @@ get_network_data <- function(category= "all", start_date= "2021-01-01", end_date
 
       my_data_2 <- mongolite::mongo(collection = "data_network_mensual", # Data Table
                                     db = "data_net", # DataBase
-                                    url = url_path,
+                                    url = url_path_5,
                                     verbose = TRUE)
       data_net <- my_data_2$find('{}')
       data_net <-data_net[((data_net$month_year >= start_date) &
@@ -54,5 +55,6 @@ get_network_data <- function(category= "all", start_date= "2021-01-01", end_date
                                (data_net$retweet_user_id %in% data_politicxs[data_politicxs$category %in% category, "user_id"])),]
       data_net$month_year <- as.Date(data_net$month_year)
       data_net <- data_net[,c("month_year", "user_id", "retweet_user_id", "value")]
-      return(data_net)}
+      return(data_net)
+      }
   }
