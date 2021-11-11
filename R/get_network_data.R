@@ -30,12 +30,12 @@ get_network_data <- function(category= "all", start_date= "2021-01-01", end_date
                                     url = url_path_5,
                                     verbose = TRUE)
       data_net <- my_data_2$find('{}')
-      data_net <-data_net[((data_net$month_year >= start_date) &
-                             (data_net$month_year <= end_date)) &
+      data_net <-data_net[((data_net$created_at >= start_date) &
+                             (data_net$created_at <= end_date)) &
                             ((data_net$user_id %in% data_politicxs[data_politicxs$category %in% category, "user_id"]) &
                                (data_net$retweet_user_id %in% data_politicxs[data_politicxs$category %in% category, "user_id"])),]
-      data_net$month_year <- as.Date(data_net$month_year)
-      data_net <- data_net[,c("month_year", "user_id", "retweet_user_id", "value")]
+      data_net$created_at <- as.Date(data_net$created_at)
+      data_net <- data_net[,c("created_at", "user_id", "retweet_user_id", "value")]
       return(data_net)
     }
     else{
@@ -49,12 +49,12 @@ get_network_data <- function(category= "all", start_date= "2021-01-01", end_date
                                     url = url_path_5,
                                     verbose = TRUE)
       data_net <- my_data_2$find('{}')
-      data_net <-data_net[((data_net$month_year >= start_date) &
-                             (data_net$month_year <= end_date)) &
+      data_net <-data_net[((data_net$created_at >= start_date) &
+                             (data_net$created_at <= end_date)) &
                             ((data_net$user_id %in% data_politicxs[data_politicxs$category %in% category, "user_id"]) &
                                (data_net$retweet_user_id %in% data_politicxs[data_politicxs$category %in% category, "user_id"])),]
-      data_net$month_year <- as.Date(data_net$month_year)
-      data_net <- data_net[,c("month_year", "user_id", "retweet_user_id", "value")]
+      data_net$created_at <- as.Date(data_net$created_at)
+      data_net <- data_net[,c("created_at", "user_id", "retweet_user_id", "value")]
       return(data_net)
       }
   }
