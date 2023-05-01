@@ -10,7 +10,6 @@
 #' @export
 #' @examples
 #' get_network_data(category = 'province servants',  start_date= "2020-10-01", end_date = "2020-12-31")
-#' get_network_data(category = c('province servants', 'others'),  start_date= "2020-10-01", end_date = "2020-12-31")
 #'
 
 

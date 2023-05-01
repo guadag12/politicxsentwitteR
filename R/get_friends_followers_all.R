@@ -12,18 +12,17 @@
 #'
 #' @return This function returns a \code{data.frame} including columns:
 #' \itemize{
+#' \item screen_name
 #' \item date
 #' \item followers_count
 #' \item friends_count
 #' \item listed_count
 #' \item statuses_count
 #' \item favourites_count
-#' \item account_created_at
 #' }
 #'
 #' @export
 #' @seealso get_friends_followers
-
 
 
 get_friends_followers_all <- function(category="all"){
@@ -32,11 +31,8 @@ get_friends_followers_all <- function(category="all"){
 
   if(!is.character(category) ) { stop("category must be character") }
 
-  #si es all & arg
-
   if(category == "all"){
 
-    #si no es historico
     if(!category %in% data_politicxs$category_ ){
       stop(paste0("the selected category doesn't exist. Trying choose between some of this:
                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. (1) "))

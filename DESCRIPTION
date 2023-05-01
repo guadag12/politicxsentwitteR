@@ -27,6 +27,10 @@ Depends:
 Suggests: 
     rmarkdown,
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tidyverse,
+    hrbrthemes,
+    igraph,
+    networkD3
 VignetteBuilder: knitr
 Config/testthat/edition: 3

@@ -12,13 +12,13 @@ get_friends_followers_all(category = "all")
 \value{
 This function returns a \code{data.frame} including columns:
 \itemize{
+\item screen_name
 \item date
 \item followers_count
 \item friends_count
 \item listed_count
 \item statuses_count
 \item favourites_count
-\item account_created_at
 }
 }
 \description{
