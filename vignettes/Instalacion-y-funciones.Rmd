@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
 
 1. Instalamos el paquete y otras librerias necesarias:
 ```{r}
-library(devtools)
 #install_github("guadag12/politicxsentwitteR", force=T)
 library(politicxsentwitteR)
 ```
@@ -37,15 +36,9 @@ head(politicxs_data)
 
 3. a. Podemos descargar sobre un usuario determinado con la función *get_timeline_data*
 
-```{r, include= FALSE}
-timeline_af <- readRDS("~/Documents/GitHub/politicxsentwitteR/data_v/timeline_af.rds")
-```
-
-```{r, eval=FALSE}
-timeline_af <- get_timeline_data("alferdez")
-```
-
 ```{r}
+timeline_af <- get_timeline_data("alferdez")
+
 head(timeline_af, 2)
 ```
 
@@ -66,15 +59,10 @@ timeline_af %>%
 ```
 
 c. Podemos hacerlo comparando la cantidad de tweets de más de un usuario:
-```{r, include= FALSE}
-timeline_pb_mm <- readRDS("~/Documents/GitHub/politicxsentwitteR/data_vtimeline_pb_mm.rds")
-```
-
-```{r, eval=FALSE}
-timeline_pb_mm <- get_timeline_data(screen.name = c("PatoBullrich", "mauriciomacri"))
-```
 
 ```{r}
+timeline_pb_mm <- get_timeline_data(screen.name = c("PatoBullrich", "mauriciomacri"))
+
 head(timeline_pb_mm, 2)
 ```
 
@@ -94,15 +82,10 @@ timeline_pb_mm %>%
 ### Friends & Followers 👥: 
 
 4.a. Podemos ver cuántos amigos tiene cada uno con la función *get_friends_followers*:
-```{r, include= FALSE}
-foll_friends_mv_hl <- readRDS("~/Documents/GitHub/politicxsentwitteR/foll_friends_mv_hl.rds")
-```
-
-```{r, eval=FALSE}
-foll_friends_mv_hl <- get_friends_followers(screen.name = c( "mariuvidal", "horaciorlarreta"))
-```
 
 ```{r}
+foll_friends_mv_hl <- get_friends_followers(screen.name = c( "mariuvidal", "horaciorlarreta"))
+
 head(foll_friends_mv_hl, 2)
 ```
 
@@ -118,15 +101,11 @@ foll_friends_mv_hl %>%
 ### Redes 🤖🕸️
 
 5.a. Podemos obtener la data de redes (para un periodo de tiempo y que se actualiza de manera mensual):
-```{r, include= FALSE}
-others_network <- readRDS("~/Documents/GitHub/politicxsentwitteR/others_network.rds")
-```
 
-```{r, eval=FALSE}
-others_network <- get_network_data(category = "others") 
-```
 
 ```{r}
+others_network <- get_network_data(category = "others") 
+
 head(others_network, 2)
 ```
 

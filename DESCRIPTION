@@ -14,14 +14,19 @@ Description: Tool for download data of timelines in Twitter for public servants 
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports: dplyr, 
+Imports: 
+    dplyr,
     mongolite,
-    crayon
+    crayon,
+    lubridate,
+    readr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Depends: 
     R (>= 3.4.2)
 Suggests: 
     rmarkdown,
-    knitr
+    knitr,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3

@@ -4,14 +4,10 @@
 \alias{get_friends_followers_all}
 \title{Download the friends and followers in a period of time by category}
 \usage{
-get_friends_followers_all(category = "all", historic = T)
+get_friends_followers_all(category = "all")
 }
 \arguments{
 \item{category}{A character with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-}
-
-\item{historic}{A logical value. Would you prefer the historic data?}
-
-\item{country}{A character with the Alpha 2 code of the country that wants to download}
 }
 \value{
 This function returns a \code{data.frame} including columns:
@@ -30,7 +26,7 @@ This download a time series with the evolution of friends, followers, listed, st
 and the created date of the account with the possibility of download the historic data by category
 }
 \examples{
-get_friends_followers_all(category = 'others',  historic = TRUE)
+get_friends_followers_all(category = 'others')
 
 }
 \seealso{

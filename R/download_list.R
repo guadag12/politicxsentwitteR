@@ -2,16 +2,13 @@
 #'
 #' Download from mongolite the dataframe
 #'
-#' @import mongolite
-#'
+#' @import readr
 
 download_list <-
   function(){
-    url_path_ = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test' #pen,, config
-    data_politicxs_md <- mongolite::mongo(collection = "data_politicxs_package2", # Data Table
-                                          db = "configuration_db", # DataBase
-                                          url = url_path_,
-                                          verbose = TRUE)
-    data_politicxs <- data_politicxs_md$find(query = '{}')
+    options(scipen =999)
+    data_politicxs <- read_csv("https://raw.githubusercontent.com/guadag12/configuration_db/main/lista_politicos_politicxsentwitteR.csv",
+                               locale = locale(encoding = "ISO-8859-1"))
+    data_politicxs <- data.frame(lapply(data_politicxs, as.character), stringsAsFactors=FALSE)
     return(data_politicxs)
   }

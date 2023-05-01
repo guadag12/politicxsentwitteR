@@ -3,11 +3,14 @@
 #' This download most of the tweets write by this politician on Twitter
 #'
 #' @param category  A character with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-
-#' @import mongolite
+#' @param delay  A number of seconds from the download of one user to another
+#'
 #' @importFrom dplyr bind_rows
+#' @import readr
+#' @import crayon
 #' @export
 #' @examples
-#' get_timeline_data_all(category = "national executive")
+#' get_timeline_data_all(category = "national executive", delay = 1)
 #'
 #' @return This function returns a \code{data.frame} including columns:
 #' \itemize{
@@ -51,39 +54,62 @@
 #' @seealso \link[rtweet]{search_tweets}
 #'
 
+get_timeline_data_all <- function(category = "all", delay = 1){
 
-get_timeline_data_all <- function(category="all"){
-  if(!category %in% c('all','deputies','national executive','others','province servants', 'senators', 'candidates')){stop("the selected category doesn't exist. Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. ")}
+  if(!category %in% c('all','deputies','national executive','others',
+                      'province servants', 'senators', 'candidates')){
+    stop("the selected category doesn't exist. Trying choose between some of this: 'all',
+         'deputies','national executive','others','province servants', 'senators', 'candidates'. ")}
+  else{
 
+  # Initialize data frame
+  data <- data.frame()
 
+  # Download list of Twitter accounts
   data_politicxs <- download_list()
 
-  j = 1
-  for(i in data_politicxs[(data_politicxs$category %in% category), "screen_name"]){
 
-    if(!is.character(category) ){stop("category must be character")}
-    if(!category %in% data_politicxs$category ){stop("the selected category doesn't exist.
-                                                   Trying choose between some of this: 'all','deputies','national executive','others','province servants', 'senators', 'candidates'. ")}
+  # Initialize temporary environment
+  tmp_env <- new.env()
 
-    else{
-      my_query_2 <-  mongolite::mongo(collection = i,
-                                      db = paste0(data_politicxs[data_politicxs$screen_name == i, 'database']),
-                                      url = paste0(data_politicxs[data_politicxs$screen_name == i, 'url_path']),
-                                      verbose = TRUE)
-      data_timeline <- my_query_2$find(query = '{}')
+  # Iterate over Twitter accounts
+  for(i in unique(data_politicxs[data_politicxs$category_ %in% category, "screen_name"])){
 
-      if(j == 1){
-        data <- data_timeline[0,]
-        data <- dplyr::bind_rows(data)
-      }
-      else{
-        data <-  dplyr::bind_rows(data, data_timeline)}
-      j=j+1
 
+    # Initialize temporary environment
+    tmp_env <- new.env()
+    # Get URL for timeline data
+    githubURL <- unique(data_politicxs[data_politicxs$screen_name == i, "url_path"])
+
+    # Download timeline data with delay
+    Sys.sleep(delay)
+    data_timeline <- tryCatch(readRDS(url(description = paste0(githubURL), method = "libcurl"), tmp_env),
+                              error = function(e) {
+                                cat("An error occurred on iteration", i, "with the following message:", conditionMessage(e), "\n")
+                                return(NULL)
+                              }, warning = function(w) {
+                                cat("A warning occurred on iteration", i, "with the following message:", conditionMessage(w), "\n")
+                                return(NULL)
+                              })
+
+    # Check if data was downloaded successfully
+    if(!is.null(data_timeline)){
+
+      # Convert data to data frame
+      data_timeline <- data.frame(lapply(data_timeline, as.character), stringsAsFactors = FALSE)
+
+      # Append data to data frame
+      data <- dplyr::bind_rows(data, data_timeline)
+
+      # Close connections
+      rm(list = ls(tmp_env), envir = tmp_env)
     }
+  }
+
+  # Return data frame
+  return(data)
+
+  cat( crayon::green$bold("Congrats, the data of", category, "is download \n") )
 
   }
-  return(data)
-  cat(crayon::green$bold("Congrats, the data of", category, "is download \n"))
-
 }

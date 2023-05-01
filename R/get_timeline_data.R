@@ -3,8 +3,12 @@
 #' This download most of the tweets write by this politician on Twitter
 #'
 #' @param screen.name  A character with the screen name of the account
-#' @import mongolite
 #' @importFrom dplyr bind_rows
+#' @import crayon
+#' @import readr
+#' @import dplyr
+#' @import lubridate
+
 #' @export
 #' @examples
 #' get_timeline_data(screen.name = "alferdez")
@@ -62,11 +66,18 @@ get_timeline_data <- function(screen.name){
       stop("screen name is not in the list. You must try download with rtweet package")
     }
     else{
-    my_query_2 <- mongolite::mongo(collection = screen.name,
-                                   db = paste0(data_politicxs[data_politicxs$screen_name == screen.name, 'database']),
-                                   url = paste0(data_politicxs[data_politicxs$screen_name == screen.name, 'url_path']),
-                                   verbose = TRUE)
-    data <- my_query_2$find(query = '{}')
+
+      githubURL <- unique(data_politicxs[data_politicxs$screen_name == screen.name, "url_path"])
+
+      data <- readRDS(url(description = paste0(githubURL), method="libcurl"))
+
+      data <- data[!duplicated(data[c("status_id")]),]
+      data <- data.frame(lapply(data, as.character), stringsAsFactors=FALSE)
+      data$favorite_count <- as.numeric(as.character(data$favorite_count))
+      data$retweet_count <- as.numeric(as.character(data$retweet_count))
+      data$created_at <- ymd_hms(data$created_at)
+      data <- data %>% arrange(desc(created_at))
+
     return(data)
     }
 
@@ -78,11 +89,16 @@ get_timeline_data <- function(screen.name){
         warning(paste0(i,"is not in the list on politicians on twitter. You must try download with rtweet package"))
       }
       else{
-        my_query_2 <- mongolite::mongo(collection = i,
-                                       db = paste0(data_politicxs[data_politicxs$screen_name == i, 'database']),
-                                       url = paste0(data_politicxs[data_politicxs$screen_name == i, 'url_path']),
-                                       verbose = TRUE)
-        data_timeline <- my_query_2$find(query = '{}')
+        githubURL <- unique(data_politicxs[data_politicxs$screen_name == i, "url_path"])
+
+        data_timeline <- readRDS(url(description = paste0(githubURL), method="libcurl"))
+
+        data_timeline <- data_timeline[!duplicated(data_timeline[c("status_id")]),]
+        data_timeline <- data.frame(lapply(data_timeline, as.character), stringsAsFactors=FALSE)
+        data_timeline$favorite_count <- as.numeric(as.character(data_timeline$favorite_count))
+        data_timeline$retweet_count <- as.numeric(as.character(data_timeline$retweet_count))
+        data_timeline$created_at <- ymd_hms(data_timeline$created_at)
+        data_timeline <- data_timeline %>% arrange(desc(created_at))
 
         if(j == 1){
           data <- data_timeline[0,]
@@ -101,4 +117,3 @@ get_timeline_data <- function(screen.name){
 
   cat(crayon::green$bold("Congrats, the data of", screen.name, "is download ✨"))
 }
-

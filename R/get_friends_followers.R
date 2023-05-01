@@ -3,9 +3,9 @@
 #' This download a time series with the evolution of friends, followers, listed, statuses, likes
 #' and the created date of the account
 #' @param screen.name A character vector with an Twitter user
-#' @import mongolite
+#' @import readr
 #' @import crayon
-#' @importFrom dplyr bind_rows
+#' @import dplyr
 #' @export
 #' @examples
 #' get_friends_followers(screen.name = "SergioMassa")
@@ -28,15 +28,19 @@
 
 get_friends_followers <- function(screen.name) {
 
-  url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test'
+
+  #url_path = 'mongodb+srv://new_user_db:password_new_123@cluster0.gxwrq.mongodb.net/test'
   data_politicxs <- download_list()
 
   if(length(screen.name) == 1){
-      data_crec_db <-  mongolite::mongo(collection = "data_crec", # Data Table
-                                        db = "CREC_db", # DataBase
-                                        url = url_path,
-                                        verbose = TRUE)
-      data <- data_crec_db$find(paste0('{"screen_name" : ','"', screen.name, '"','}') )
+
+    data_crec <- read_csv("https://github.com/guadag12/configuration_db/raw/main/amount_followers.csv",
+                          locale = locale(encoding = "Latin1"))
+    data_crec <- data.frame(lapply(data_crec, as.character), stringsAsFactors=FALSE)
+
+    data <- data_crec[data_crec$screen_name == screen.name, ]
+
+
     }
     else{
       j = 1
@@ -44,11 +48,11 @@ get_friends_followers <- function(screen.name) {
         if(!i %in% data_politicxs$screen_name ){
           warning(paste0(i, " is not in the list of Politicians on TwitteR (list: https://github.com/guadag12/polentw/raw/master1/data/politicxs_data.rda ). You must try download the tweets with rtweet package"))
         }
-          data_crec_db <-  mongolite::mongo(collection = "data_crec", # Data Table
-                                            db = "CREC_db", # DataBase
-                                            url = url_path,
-                                            verbose = TRUE)
-          data_crec <- data_crec_db$find(paste0('{"screen_name" : ','"', i, '"','}') )
+        data_crec <- read_csv("https://github.com/guadag12/configuration_db/raw/main/amount_followers.csv",
+                              locale = locale(encoding = "Latin1"))
+        data_crec <- data.frame(lapply(data_crec, as.character), stringsAsFactors=FALSE)
+
+        data_crec <- data_crec[data_crec$screen_name == screen.name, ]
 
           if(j == 1) {
             data <- data_crec[0,]

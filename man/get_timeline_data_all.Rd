@@ -4,10 +4,12 @@
 \alias{get_timeline_data_all}
 \title{Download the timeline data for a group of users}
 \usage{
-get_timeline_data_all(category = "all")
+get_timeline_data_all(category = "all", delay = 1)
 }
 \arguments{
 \item{category}{A character with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-}
+
+\item{delay}{A number of seconds from the download of one user to another}
 }
 \value{
 This function returns a \code{data.frame} including columns:
@@ -52,7 +54,7 @@ This function returns a \code{data.frame} including columns:
 This download most of the tweets write by this politician on Twitter
 }
 \examples{
-get_timeline_data_all(category = "national executive")
+get_timeline_data_all(category = "national executive", delay = 1)
 
 }
 \seealso{

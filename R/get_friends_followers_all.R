@@ -4,12 +4,11 @@
 #' and the created date of the account with the possibility of download the historic data by category
 #'
 #' @param category  A character with the category selected -"deputies","senators","national executive","others","province servants", 'candidates',  "all"-
-#' @param country   A character with the Alpha 2 code of the country that wants to download
-#' @param historic   A logical value. Would you prefer the historic data?
-#' @import mongolite
+#' @import readr
+#' @import crayon
 #' @export
 #' @examples
-#' get_friends_followers_all(category = 'others',  historic = TRUE)
+#' get_friends_followers_all(category = 'others')
 #'
 #' @return This function returns a \code{data.frame} including columns:
 #' \itemize{
@@ -27,75 +26,50 @@
 
 
 
-get_friends_followers_all <- function(category="all", historic = T){
+get_friends_followers_all <- function(category="all"){
+
   data_politicxs <- download_list()
 
   if(!is.character(category) ) { stop("category must be character") }
 
   #si es all & arg
 
-  if(category == "all" & historic == F ){
+  if(category == "all"){
 
     #si no es historico
-    if(!category %in% data_politicxs$category ){
+    if(!category %in% data_politicxs$category_ ){
       stop(paste0("the selected category doesn't exist. Trying choose between some of this:
-                                                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))
+                  'all','deputies','national executive','others','province servants', 'senators', 'candidates'. (1) "))
     }
     else{
-    data_crec_db <- mongolite::mongo(collection = "data_crec", # Data Table
-                                     db = "CREC_db", # DataBase
-                                     url = url_path,
-                                     verbose = TRUE)
-    data <- data_crec_db$find(paste0('{"date" : ','"', Sys.Date(), '"','}') )}
+      data <- read_csv("https://github.com/guadag12/configuration_db/raw/main/amount_followers.csv",
+                            locale = locale(encoding = "Latin1"))
+      data <- data.frame(lapply(data, as.character), stringsAsFactors=FALSE)
+
+    }
   }
 
-  #si es historico
-  if(category == "all"  & historic == T ){
-    if(!category %in% data_politicxs$category ){
+  if(category != "all"){
+    if(!category %in% data_politicxs$category_ ){
       stop(paste0("the selected category doesn't exist. Trying choose between some of this:
-                                                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))
+                                                   'all','deputies','national executive','others',
+                  'province servants', 'senators', 'candidates'. (2)"))
     }
     else{
-    data_crec_db <- mongolite::mongo(collection = "data_crec", # Data Table
-                                     db = "CREC_db", # DataBase
-                                     url = url_path,
-                                     verbose = TRUE)
-    data <- data_crec_db$find()}
-  }
 
-  if(category != "all"  & historic == F){
-    if(!category %in% data_politicxs$category ){
-      stop(paste0("the selected category doesn't exist. Trying choose between some of this:
-                                                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))
+    data_crec <- read_csv("https://github.com/guadag12/configuration_db/raw/main/amount_followers.csv",
+                            locale = locale(encoding = "Latin1"))
+    data_crec <- data.frame(lapply(data_crec, as.character), stringsAsFactors=FALSE)
+    data_politicxs_filter <- subset(data_politicxs, category_ == category)
+    data <- data_crec[data_crec$screen_name %in% unique(data_politicxs_filter$screen_name), ]
     }
-    else{
-    data_crec_db <- mongolite::mongo(collection = "data_crec",
-                                     db = "CREC_db",
-                                     url = url_path,
-                                     verbose = TRUE)
-    data <- data_crec_db$find(paste0('{"date" : ','"', Sys.Date(), '"','}') )
-    data <- data[(data$screen_name %in% data_politicxs[(data_politicxs$category == category),
-                                                       "screen_name"]), ]}
 
   }
 
-  if(category != "all" & historic == T){
-    if(!category %in% data_politicxs$category ){
-      stop(paste0("the selected category doesn't exist. Trying choose between some of this:
-                                                   'all','deputies','national executive','others','province servants', 'senators', 'candidates'. "))
-    }
-    else{
+  data <- data[,  c("screen_name","date", "followers_count", "friends_count",
+                    "listed_count", "statuses_count", "favourites_count")]
 
-    data_crec_db <- mongolite::mongo(collection = "data_crec", # Data Table
-                                     db = "CREC_db", # DataBase
-                                     url = url_path,
-                                     verbose = TRUE)
-    data <- data_crec_db$find()
-    data <- data[(data$screen_name %in% data_politicxs[(data_politicxs$category == category),
-                                                       "screen_name"]), ] }
-}
-  data <- data[,  c("screen_name","date", "followers_count", "friends_count", "listed_count", "statuses_count",
-                    "favourites_count")]
   return(data)
   cat(crayon::green$bold("Congrats, the data of", category, "is download"))
 }
+
